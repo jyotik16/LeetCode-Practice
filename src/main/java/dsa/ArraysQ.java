@@ -89,7 +89,7 @@ public class ArraysQ {
         ar.add(8); ar.add(2);ar.add(2); ar.add(2);
         ar.add(10);
       //  solve(ar);
-        int [] fr = {1,2,3,0}; //[0,1,2,3]
+        int [] fr = {0,2,1,3}; //[0,1,2,3]
         rearrangeArray(fr);
     }
 
@@ -97,7 +97,8 @@ public class ArraysQ {
         int n = fr.length;
         // modified the array element
         for (int i = 0; i < n; i++) {
-            fr[i] += (fr[fr[i]] % n) * n;
+            int val = (fr[fr[i]]%n)*n;
+            fr[i] += val;
         }
         // Divide each element by N to get the modified values
         for (int i = 0; i < n; i++) {
