@@ -90,7 +90,107 @@ public class ArraysQ {
         ar.add(10);
       //  solve(ar);
         int [] fr = {0,2,1,3}; //[0,1,2,3]
-        rearrangeArray(fr);
+      //  rearrangeArray(fr);
+      // bitsets();
+       // System.out.println(1<<3);
+        int [] gr={6,5,2,9,18}; //{4, 2, 3, 8, 9, 6, 12, 7, 5};
+       // findMagicSubarrayLength(gr);
+        int j=0; int N=5;
+       /* for (int i = 0; i < N; i++) {
+            while (j<=i){
+                j++;
+                System.out.println(i+j);
+            }
+        }*/
+      //  gameplay();
+        calculateRentingWays(4);
+    }
+    public static int[] calculateRentingWays(int A) {
+        int[] rentalWays = new int[A];
+        rentalWays[0] = 1;
+
+        for (int i = 1; i < A; i++) {
+            rentalWays[i] = rentalWays[i - 1] + 1;
+        }
+        for (int i = 1; i < A - 1; i++) {
+            rentalWays[i] += rentalWays[i - 1];
+        }
+        rentalWays[A - 1] = rentalWays[A - 2];
+        for (int i=0;i<rentalWays.length;i++){
+            System.out.print(rentalWays[i]+" ");
+        }
+        return rentalWays;
+    }
+    private static void sumOfAllSubsetsInArray(int []ar) {
+        int set_size = ar.length;
+        long N = (long)Math.pow(2,ar.length);
+        ArrayList<Integer> sets = new ArrayList<>();
+        int sum = 0;
+        for(int i=0;i<N;i++){
+            int subsum =0;
+            for (int j = 0; j < set_size; j++) {
+                if (checkbit(i,j) == true){
+                    subsum += ar[j];
+                }
+            }
+            sets.add(subsum);
+        }
+        for (Integer list:sets) {
+            System.out.println(list);
+        }
+    }
+    static boolean  checkbit(int n,int k){
+        if ((n & (1 <<k)) != 0)
+            return true;
+        else
+            return false;
+    }
+    private static void gameplay() {
+        int[] A = {3, 4, 5, 7, 2};
+        int mod = (int) (1e9 + 7);
+
+        int modulo = (int) (1e9 + 7); // 10^9 + 7
+        long product = 1;
+
+        for (int i = 1; i < A.length; i++) {
+            if (A[i] > A[i - 1]) {
+                product = (product * A[i]) % modulo;
+            }
+        }
+
+        System.out.println(product);;
+    }
+
+    public static int findMagicSubarrayLength(int[] A) {
+        int maxLength = 0;
+        int currentLength = 0;
+
+        for (int i = 0; i < A.length; i++) {
+            if (isMagicNumber(A[i])) {
+                currentLength++;
+                maxLength = Math.max(maxLength, currentLength);
+            } else {
+                currentLength = 0;
+            }
+        }
+       System.out.println(maxLength);
+        return maxLength;
+    }
+
+    public static boolean isMagicNumber(int num) {
+        return num % 2 == 0 || num % 3 == 0;
+    }
+
+    private static void bitsets() {
+        int A = 12;
+        int B = 2;
+        int C = 3;
+
+        int unsetBits = A & (~((1 << C) - 1));
+        int restoredBits = unsetBits | (A & ((1 << B) - 1));
+
+        System.out.println("Result: " + restoredBits);
+
     }
 
     private static void rearrangeArray(int[] fr) {
