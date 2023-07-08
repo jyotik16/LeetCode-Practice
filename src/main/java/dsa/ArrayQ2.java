@@ -3,7 +3,7 @@ import java.util.*;
 
 public class ArrayQ2 {
     public static void main(String[] args) {
-
+        System.out.println(findRank2("cab"));;
     }
 
         public static int solve(int[] A) {
@@ -62,5 +62,69 @@ public class ArrayQ2 {
             }
             return ans;
         }
+        public static int fact2(int n) {
+            if (n <= 1) {
+                return 1;
+            }
+            return n * fact(n - 1);
+        }
+
+        static int fact(int n)
+        {
+            return (n <= 1) ? 1 : n * fact(n - 1);
+        }
+        static int findSmallerInRight(String str, int low,
+                                      int high)
+        {
+            int countRight = 0, i;
+            for (i = low + 1; i <= high; ++i)
+                if (str.charAt(i) < str.charAt(low))
+                    ++countRight;
+            return countRight;
+        }
+        static int findRank(String str)
+        {
+            int len = str.length();
+            int mul = fact(len);
+            int rank = 1;
+            int countRight;
+
+            for (int i = 0; i < len; ++i) {
+                mul /= len - i;
+                countRight = findSmallerInRight(str, i, len - 1);
+                rank += countRight * mul;
+            }
+            return rank;
+        }
+
+    static void updatecount(int[] count, char ch)
+    {   int i;
+        for (i = ch; i < 256; ++i)
+            --count[i];
     }
+    static void populateAndIncreaseCount(int[] count, String str)
+    {
+        int i;
+        for (i = 0; i < str.length(); ++i)
+            ++count[str.charAt(i)];
+        for (i = 1; i < 256; ++i)
+            count[i] += count[i - 1];
+    }
+    static int findRank2(String str)
+    {
+        int len = str.length();
+        int mul = fact(len);
+        int rank = 1;
+        int countRight;
+        int [] freq = new int[256];
+        populateAndIncreaseCount(freq,str);
+        for (int i = 0; i < len; ++i) {
+            mul /= len - i;
+            rank += freq[str.charAt(i)-1] * mul;
+            updatecount(freq,str.charAt(i));
+        }
+        return rank;
+    }
+
+}
 
