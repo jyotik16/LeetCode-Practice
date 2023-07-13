@@ -3,7 +3,9 @@ import java.util.*;
 
 public class ArrayQ2 {
     public static void main(String[] args) {
-        System.out.println(findRank2("cab"));;
+       // System.out.println(findRank2("cab"));;
+        int [] A = {2,1,4,3,2};
+        kthsmallest(A,3);
     }
 
         public static int solve(int[] A) {
@@ -73,8 +75,7 @@ public class ArrayQ2 {
         {
             return (n <= 1) ? 1 : n * fact(n - 1);
         }
-        static int findSmallerInRight(String str, int low,
-                                      int high)
+        static int findSmallerInRight(String str, int low,int high)
         {
             int countRight = 0, i;
             for (i = low + 1; i <= high; ++i)
@@ -97,21 +98,18 @@ public class ArrayQ2 {
             return rank;
         }
 
-    static void updatecount(int[] count, char ch)
-    {   int i;
+    static void updatecount(int[] count, char ch) {   int i;
         for (i = ch; i < 256; ++i)
             --count[i];
     }
-    static void populateAndIncreaseCount(int[] count, String str)
-    {
+    static void populateAndIncreaseCount(int[] count, String str) {
         int i;
         for (i = 0; i < str.length(); ++i)
             ++count[str.charAt(i)];
         for (i = 1; i < 256; ++i)
             count[i] += count[i - 1];
     }
-    static int findRank2(String str)
-    {
+    static int findRank2(String str) {
         int len = str.length();
         int mul = fact(len);
         int rank = 1;
@@ -126,5 +124,26 @@ public class ArrayQ2 {
         return rank;
     }
 
+    //Kth smallest element using selection sort
+    static public int kthsmallest(int[] A, int B) {
+        int n = A.length;
+        for(int i=0;i<B; i++){
+            int minele = A[i];
+            int minidn = i;
+            for(int j=i;j<n;j++){
+                if(A[j]<minele){
+                    minele = A[j];
+                    minidn = j;
+                }
+            }
+            int temp = A[i];
+            A[i] = minele;
+            A[minidn] = temp;
+        }
+        for (int i = 0; i < A.length; i++) {
+            System.out.print(A[i]+" ");
+        }
+        return A[B-1];
+    }
 }
 
