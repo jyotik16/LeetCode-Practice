@@ -5,7 +5,11 @@ public class ArrayQ2 {
     public static void main(String[] args) {
        // System.out.println(findRank2("cab"));;
         int [] A = {2,1,4,3,2};
-        kthsmallest(A,3);
+      //  kthsmallest(A,3);
+        int [] B={3,11,-1,5}; //{-1,3,5,11}
+        int [] C={5, 17, 100, 11};
+       // magicNumber(C);
+        absolouteNumber(C);
     }
 
         public static int solve(int[] A) {
@@ -75,16 +79,14 @@ public class ArrayQ2 {
         {
             return (n <= 1) ? 1 : n * fact(n - 1);
         }
-        static int findSmallerInRight(String str, int low,int high)
-        {
+        static int findSmallerInRight(String str, int low,int high) {
             int countRight = 0, i;
             for (i = low + 1; i <= high; ++i)
                 if (str.charAt(i) < str.charAt(low))
                     ++countRight;
             return countRight;
         }
-        static int findRank(String str)
-        {
+        static int findRank(String str) {
             int len = str.length();
             int mul = fact(len);
             int rank = 1;
@@ -145,5 +147,41 @@ public class ArrayQ2 {
         }
         return A[B-1];
     }
+
+    static public int[] magicNumber(int[] A) {
+        int N = A.length;
+        int[] B = new int[2];
+
+        // Sort the array in ascending order
+        Arrays.sort(A);
+
+        int maxMagicNumber = 0;
+        int minMagicNumber = 0;
+
+        // Calculate the maximum and minimum magic numbers
+        for (int i = 0; i < N / 2; i++) {
+            maxMagicNumber = (maxMagicNumber + Math.abs(A[i] - A[N - 1 - i])) % 1000000007;
+            minMagicNumber = (minMagicNumber + Math.abs(A[2 * i] - A[2 * i + 1])) % 1000000007;
+            System.out.println("Max:"+A[i]+" "+A[N-1-i]);
+            System.out.println("Min:"+A[2*i]+" "+A[2*i+1]);
+        }
+
+        B[0] = maxMagicNumber;
+        B[1] = minMagicNumber;
+        for (int i=0;i<B.length;i++) System.out.println(B[i]);
+        return B;
+    }
+
+    static public void absolouteNumber(int[] A) {
+        int N = A.length;
+        Arrays.sort(A);
+        int minMagicNumber = Integer.MAX_VALUE;
+        for (int i = 0; i < N / 2; i++) {
+            minMagicNumber = Math.min(minMagicNumber ,Math.abs(A[2 * i] - A[2 * i + 1])) % 1000000007;
+            System.out.println("Min:"+A[2*i]+" "+A[2*i+1]);
+        }
+        System.out.println("minMagicNumber "+minMagicNumber);
+    }
+
 }
 
