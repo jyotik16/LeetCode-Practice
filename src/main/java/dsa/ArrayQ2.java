@@ -13,7 +13,81 @@ public class ArrayQ2 {
         int [] D={1, 3, 2};
        // inversionCount(D);
         int [] E={1, 3, 2, 3, 1};
-        reversePairs(E);
+        int [] F={14046,57239,78362,99387,27609,55100,65536,62099,40820,33056,88380,78549,57512,33137,81212,32365,42276,65368,52459,74924,25355,76044,78056,45190,94365,58869,20611};
+     //   reversePairs(E);
+        int [] G={34100,17238,32724,89502,8098,99039,69429,55368,56113,43519,42546,13997,62184,74851,9656,88863};
+       // reversePair3(G);
+        int[][] I = {{1,3},{-2,2},{2,4}};
+        BClosetPoints(I,2);
+    }
+
+    static class coordinate{
+        int x; int y; double dis;
+        public coordinate(int x, int y, double d) {
+            this.x = x;
+            this.y = y;
+            this.dis = d;
+        }
+        public double getDis() {
+            return dis;
+        }
+        public int getX() {
+            return x;
+        }
+
+        public int getY() {
+            return y;
+        }
+    }
+
+    public static int[][] BClosetPoints(int[][] A, int B) {
+        int[][] ans = new int[B][];
+        ArrayList<coordinate> list = new ArrayList<>();
+        int k=0;
+        for(int i=0; i<A.length; i++){
+            int x = A[i][0];
+            int y = A[i][1];
+            double d = euclideanDistance(x, y);
+            list.add(new coordinate(x,y,d));
+        }
+        Collections.sort(list,Comparator.comparing(ele->ele.dis));
+        for (int i = 0; i < ans.length; i++) {
+            int x = list.get(i).getX();
+            int y = list.get(i).getY();
+            ans[i] = new int []{x,y};
+        }
+        for (int i = 0; i < ans.length; i++) {
+            System.out.println("("+ans[i][0]+","+ans[i][1]+")");
+        }
+        return ans;
+    }
+    public static int[][] BClosetPoints2(int[][] A, int B) {
+        int[][] ans = new int[A.length][];
+        ArrayList<coordinate> list = new ArrayList<>();
+        int k=0;
+        for(int i=0; i<A.length; i++){
+            int x = A[i][0];
+            int y = A[i][1];
+            double d = euclideanDistance(x, y);
+            list.add(new coordinate(x,y,d));
+        }
+        Collections.sort(list,Comparator.comparing(ele->ele.dis));
+        for (int i=0;i<list.size();i++){
+            coordinate obj = list.get(i);
+            int x = obj.getX();
+            int y = obj.getY();
+            ans[i] = new int[]{x, y};
+        }
+        for (int i = 0; i < ans.length; i++) {
+            System.out.println("("+ans[i][0]+","+ans[i][1]+")");
+        }
+        return ans;
+    }
+    public static double euclideanDistance(int x, int y){
+        int sq1 = x*x;
+        int sq2 = y*y;
+        double z = Math.sqrt(sq1+sq2);
+        return z;
     }
 
         public static int solve(int[] A) {
@@ -242,42 +316,90 @@ public class ArrayQ2 {
     }
 
     public static void reversePairs(int[] A){
+        //[1,3,2,3,1]
         int n = A.length;
-        mergeSort2(A,0,n-1);
-        System.out.println("reverse pairs:"+count);
+        System.out.println("reverse pairs: "+mergeSort2(A,0,n-1));;
     }
-    public static int count = 0;
-    public static void mergeSort2(int[] A, int s, int e){
-        if(s >= e) return;
-        int mid = (s+e)/2;
-        mergeSort(A,s,mid);
-        mergeSort(A,mid+1,e);
-        merge2(A,s,mid,e);
+    public static int mergeSort2(int[] A, int s, int e){
+        if(s >= e) return 0;
+        int m = (s + e)/2;
+        int sfh = mergeSort2(A, s, m); // sorted first half
+        int ssh = mergeSort2(A, m+1, e); // sorted second half
+
+        // do reverse check b4 merging two already sorted halves
+        int count = 0;
+        int i = s; // left part head ptr
+        int j = m+1; // right part head ptr
+        while(i <= m && j <= e){
+            if((long)A[i] > (long)2*A[j]){
+                // since left part sorted , remain elem also satisfy abv conditn
+                count += (m - i + 1); // remaining elems of left part
+                j++;
+            }else{
+                i++;
+            }
+        }
+        // then merge
+        merge2(A, s, m, e);
+        return (sfh + ssh + count);
     }
-    public static void merge2(int[] A, int s, int mid, int e){
-        int n1 = mid - s + 1;
-        int n2 = e - mid;
+    public static void merge2(int[] A, int s, int m, int e){
+        int[] C = new int[e - s + 1];
+        int i = s;
+        int j = m+1;
+        int k = 0;
+        // 1. merge two sorted arrays using 2 ptr
+        while(i <= m && j <= e){
+            if(A[i] > A[j]) C[k++] = A[j++];
+            else C[k++] = A[i++];
+        }
+        // 2. fill remaining elements
+        while(i <= m) C[k++] = A[i++];
+        while(j <= e) C[k++] = A[j++];
+
+        // 3. copy merged sorted array from s to e on A[]
+        i = s;
+        j = 0;
+        while( i <= e) A[i++] = C[j++];
+    }
+
+    public static int merge3(int[] A, int s, int mid, int e){
+        int count = 0;
+        int i = s; // left part head ptr
+        int j = mid+1; // right part head ptr
+        while(i <= mid && j <= e){
+            if((long)A[i] > (long)2*A[j]){
+                // since left part sorted , remain elem also satisfy abv conditn
+                count += (mid - i + 1); // remaining elems of left part
+                j++;
+            }else{
+                i++;
+            }
+        }
+
+        int n1 = mid - s + 1; //number of elements in array1
+        int n2 = e - mid;//number of elements in array2
         int A1[] = new int[n1];
         int A2[] = new int[n2];
         int index = 0;
 
-        for(int i = s; i <= mid; i++)
+        //filling A1 and A2
+        for(i = s; i <= mid; i++)
             A1[index++] = A[i];
 
         index = 0;
-        for(int i = mid+1; i <= e; i++)
+        for(i = mid+1; i <= e; i++)
             A2[index++] = A[i];
 
-        int i = 0, j = 0;
+        i = 0 ;
+        j = 0; // i and j referncing A1 and A2 array respectively
         index = s; // important
 
         while(i < n1 && j < n2){
             if(A1[i] <= A2[j]) // equals to condition for equal elements
                 A[index++] = A1[i++];
             else{
-                    if (A1[i] >= 2*A2[j]) {
-                        count = (count + (A1.length - i)) % mod;
-                    }
+                inversionCount = (inversionCount + (A1.length - i))%mod; //here fulfilling problem statement condition
                 A[index++] = A2[j++];
             }
         }
@@ -291,6 +413,23 @@ public class ArrayQ2 {
                 A[index++] = A2[j++];
             }
         }
+        return count;
+    }
+
+    static int ans=0;
+    public static void mergeSort3(int[] A, int s, int e){
+        if(s >= e) return;
+        int mid = (s+e)/2;
+        mergeSort3(A,s,mid);
+        mergeSort3(A,mid+1,e);
+        ans += merge3(A,s,mid,e);
+    }
+
+    public static void reversePair3(int []A){
+        int n = A.length;
+       mergeSort3(A,0,n-1);
+       System.out.println("ans:"+ans);
     }
 }
+
 
