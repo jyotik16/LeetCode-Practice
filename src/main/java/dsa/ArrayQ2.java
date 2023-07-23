@@ -18,8 +18,62 @@ public class ArrayQ2 {
         int [] G={34100,17238,32724,89502,8098,99039,69429,55368,56113,43519,42546,13997,62184,74851,9656,88863};
        // reversePair3(G);
         int[][] I = {{1,3},{-2,2},{2,4}};
-        BClosetPoints(I,2);
+        //BClosetPoints(I,2);
+        findMaxSubarray();
     }
+    public static void findMaxSubarray(){
+        int A[] = {1,1,2,3,3,4,8,9,11,9,11,12,12,11,9,14,19,20,20};//8,14
+        int B[] ={1,2, 4, 3, 2, 5, 3, 6}; //2,6
+        int C[] = {1,1,10,10,15,10,15,10,10,15,10,15};//4,11
+        int [] ans = subUnsort(C);
+        for (int i = 0; i < ans.length; i++) {
+            System.out.print(ans[i]+" ");
+        }
+    }
+    public static int[] subUnsort(int[] A) {
+        int[] ans = {-1};
+        int n = A.length;
+        int r = -1, l = 0;
+        //finding the index from right where array started unsorted
+        for(int i = n-1; i > 0; i--){
+            if(A[i] < A[i-1]){
+                r = i;
+                break;
+            }
+        }
+        //finding the index frm left where array started unsorted
+        for(int i = 0; i < n-1; i++){
+            if(A[i+1] < A[i]){
+                l = i;
+                break;
+            }
+        }
+        //finding max and min in between left and right
+        int minElement = Integer.MAX_VALUE;
+        int maxElement = Integer.MIN_VALUE;
+        for(int i = l; i <= r && i < n; i++){
+            minElement = Math.min(minElement,A[i]);
+            maxElement = Math.max(maxElement,A[i]);
+        }
+        //iterating from left of the array to find correct index and from right to find the correct index
+        //don't traverse the whole array again give TLE
+        int i = 0, j = n-1;
+        if(r != -1){
+            while(A[i] <= minElement && i<=l){
+                i++;
+            }
+            while(A[j] >= maxElement && j>=r){
+                j--;
+            }
+        }
+        else return ans;
+
+        int[] ans2 = {i,j};
+        return ans2;
+    }
+}
+
+
 
     static class coordinate{
         int x; int y; double dis;
