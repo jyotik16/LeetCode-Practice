@@ -3,8 +3,10 @@ import java.util.*;
 
 public class ArrayQ2 {
     public static void main(String[] args) {
+        int [] A = {95,98,41,5};
+       // System.out.println(solve(A));
        // System.out.println(findRank2("cab"));;
-        int [] A = {2,1,4,3,2};
+      //  int [] A = {2,1,4,3,2};
       //  kthsmallest(A,3);
         int [] B={3,11,-1,5}; //{-1,3,5,11}
         int [] C={5, 17, 100, 11};
@@ -19,7 +21,10 @@ public class ArrayQ2 {
        // reversePair3(G);
         int[][] I = {{1,3},{-2,2},{2,4}};
         //BClosetPoints(I,2);
-        findMaxSubarray();
+       // findMaxSubarray();
+        int [] J ={5,6,7,8,9,10,3,2,1};
+        int [] K = {3, 9, 18, 20, 17, 5, 1};
+        System.out.println(searchInBitonicArray(K,20));
     }
     public static void findMaxSubarray(){
         int A[] = {1,1,2,3,3,4,8,9,11,9,11,12,12,11,9,14,19,20,20};//8,14
@@ -71,79 +76,6 @@ public class ArrayQ2 {
         int[] ans2 = {i,j};
         return ans2;
     }
-}
-
-
-
-    static class coordinate{
-        int x; int y; double dis;
-        public coordinate(int x, int y, double d) {
-            this.x = x;
-            this.y = y;
-            this.dis = d;
-        }
-        public double getDis() {
-            return dis;
-        }
-        public int getX() {
-            return x;
-        }
-
-        public int getY() {
-            return y;
-        }
-    }
-
-    public static int[][] BClosetPoints(int[][] A, int B) {
-        int[][] ans = new int[B][];
-        ArrayList<coordinate> list = new ArrayList<>();
-        int k=0;
-        for(int i=0; i<A.length; i++){
-            int x = A[i][0];
-            int y = A[i][1];
-            double d = euclideanDistance(x, y);
-            list.add(new coordinate(x,y,d));
-        }
-        Collections.sort(list,Comparator.comparing(ele->ele.dis));
-        for (int i = 0; i < ans.length; i++) {
-            int x = list.get(i).getX();
-            int y = list.get(i).getY();
-            ans[i] = new int []{x,y};
-        }
-        for (int i = 0; i < ans.length; i++) {
-            System.out.println("("+ans[i][0]+","+ans[i][1]+")");
-        }
-        return ans;
-    }
-    public static int[][] BClosetPoints2(int[][] A, int B) {
-        int[][] ans = new int[A.length][];
-        ArrayList<coordinate> list = new ArrayList<>();
-        int k=0;
-        for(int i=0; i<A.length; i++){
-            int x = A[i][0];
-            int y = A[i][1];
-            double d = euclideanDistance(x, y);
-            list.add(new coordinate(x,y,d));
-        }
-        Collections.sort(list,Comparator.comparing(ele->ele.dis));
-        for (int i=0;i<list.size();i++){
-            coordinate obj = list.get(i);
-            int x = obj.getX();
-            int y = obj.getY();
-            ans[i] = new int[]{x, y};
-        }
-        for (int i = 0; i < ans.length; i++) {
-            System.out.println("("+ans[i][0]+","+ans[i][1]+")");
-        }
-        return ans;
-    }
-    public static double euclideanDistance(int x, int y){
-        int sq1 = x*x;
-        int sq2 = y*y;
-        double z = Math.sqrt(sq1+sq2);
-        return z;
-    }
-
         public static int solve(int[] A) {
             int size = 100001;
             HashSet<Integer> set = new HashSet<>();
@@ -483,6 +415,70 @@ public class ArrayQ2 {
         int n = A.length;
        mergeSort3(A,0,n-1);
        System.out.println("ans:"+ans);
+    }
+
+    //Find an element in Bitonic array
+    public static int searchInBitonicArray(int []A,int key){
+        int n = A.length;
+        int bitonicIndex = findBitonicPointIndex(A,0,n-1);
+        if (A[bitonicIndex] == key){
+            return bitonicIndex;
+        }
+        if (A[bitonicIndex]<key){
+            return -1; //In bitonic serires only A[bitonicIndex] has max value;
+        }
+        int temp1 = binarySearchInAescendingOrder(A,key,bitonicIndex-1);
+        if (temp1!=-1)
+            return temp1;
+        int temp2= binarySearchInDescendingOrder(A,key,bitonicIndex+1);
+        if (temp2!=-1)
+            return temp2;
+        return -1;
+    }
+    public static int findBitonicPointIndex(int[] A,int l,int r){
+        int bitonicPoint = 0; int n = A.length-1;
+        int mid = (l+r)/2;
+        if(A[mid]>A[mid-1] && A[mid]>A[mid+1]){
+            return mid;
+        } else {
+            if (A[mid] > A[mid - 1] && A[mid] < A[mid + 1])
+                {
+                    bitonicPoint = findBitonicPointIndex(A, mid, r);
+                }
+            else if (A[mid] < A[mid - 1] && A[mid] > A[mid + 1])
+                {
+                    bitonicPoint = findBitonicPointIndex(A, l, mid);
+                }
+        }
+        return bitonicPoint;
+    }
+    public static int binarySearchInAescendingOrder(int []A,int key,int range){
+        int l=0; int r=range;
+        while(l<=r){
+        int mid = (l+r)/2;
+        if (A[mid] == key){
+            return mid;
+        } else if (A[mid] < key) {
+            l = mid + 1;
+        }else {
+            r = mid - 1;
+        }
+        }
+        return -1;
+    }
+    public static int binarySearchInDescendingOrder(int []A,int key,int range){
+        int l=range; int r=A.length-1;
+        while(l<=r){
+            int mid = (l+r)/2;
+            if (A[mid] == key){
+                return mid;
+            } else if (A[mid] < key) {
+                r = mid - 1;
+            }else {
+                l = mid + 1;
+            }
+        }
+        return -1;
     }
 }
 
