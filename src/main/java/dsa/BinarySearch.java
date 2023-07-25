@@ -18,8 +18,53 @@ public class BinarySearch {
        // findKRotation();
        // searchInRotatedArray();
     }
+    public int solve(int[] A, int B) {
+        int l = 1;
+        int h = A.length;
+        int ans = 0;
+        while(l<=h){
+            int mid = l+(h-l)/2;
+            long max = maxSum(A, B, mid);
+            if(max<=B){
+                ans = mid;
+                l = mid+1;
+            }
+            else{
+                h = mid-1;
+            }
+        }
+        return ans;
+    }
+    private long maxSum(int[] A, int B, int window){
+        long sum=0;
+        for(int i=0;i<window;i++){
+            sum+=A[i];
+        }
+        long max=sum;
+        for(int i=window;i<A.length;i++){
+            sum=sum+A[i]-A[i-window];
+            max=Math.max(max,sum);
+        }
+        return max;
+    }
+        public boolean searchMatrix2(int[][] matrix, int target) {
+        int n = matrix.length; int m = matrix[0].length;
+        int lo = 0; int hi = (n*m)-1;
+        while(lo<=hi){
+            int mid = lo+(hi-lo)/2;
+            int i = mid/m;
+            int j = mid%m;
+            if (matrix[i][j] == target)
+            {return true;}
+            else if (matrix[i][j] < target){
+                lo = mid +1;
+            }else{
+                hi = mid -1;
+            }
+        }
+        return false;
+    }
 
-    class Solution {
         public boolean searchMatrix(int[][] matrix, int target) {
             int lo = 0; int hi = matrix.length-1;
             int row =  searchInrow(lo,hi,matrix,target);
@@ -59,7 +104,6 @@ public class BinarySearch {
             }
             return -1;
         }
-    }
 
     private static void searchInRotatedArray() {
         int [] ar = {7,6,1,2,3,4,5}; int target = 4;
