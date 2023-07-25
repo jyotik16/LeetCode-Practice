@@ -19,6 +19,48 @@ public class BinarySearch {
        // searchInRotatedArray();
     }
 
+    class Solution {
+        public boolean searchMatrix(int[][] matrix, int target) {
+            int lo = 0; int hi = matrix.length-1;
+            int row =  searchInrow(lo,hi,matrix,target);
+            if(row  == -1) return false;
+            int col =  binarySearch(row,matrix,target);
+            if(col  == -1) return false;
+            //System.out.println(matrix[row][col] == target);
+            return matrix[row][col] == target;
+        }
+
+        private static int binarySearch(int row, int[][] matrix,int target) {
+            int lo = 0; int hi = matrix[0].length-1;
+            while(lo<=hi){
+                int mid = (lo+hi)/2;
+                if(target == matrix[row][mid]){
+                    return mid;
+                } else if (target < matrix[row][mid]) {
+                    hi = mid-1;
+                }else{
+                    lo = mid+1;
+                }
+            }
+            return -1;
+        }
+
+        private static int searchInrow(int lo, int hi, int[][] matrix,int target) {
+            int lc = matrix[0].length-1;
+            while(lo<=hi){
+                int mid = (lo+hi)/2;
+                if(target >= matrix[mid][0] && target<=matrix[mid][lc]){
+                    return mid;
+                } else if (target < matrix[mid][0]) {
+                    hi = mid-1;
+                }else{
+                    lo = mid+1;
+                }
+            }
+            return -1;
+        }
+    }
+
     private static void searchInRotatedArray() {
         int [] ar = {7,6,1,2,3,4,5}; int target = 4;
         int pivot = findPivot(ar);
