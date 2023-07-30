@@ -841,6 +841,29 @@ public class ArraysQ {
         }
         return closetSum;
     }
+    //T:(n) S:(1)
+    public static int tra4p(int[] height) {
+        int left = 0;
+        int right = height.length - 1;
+
+        int lmax = 0;
+        int rmax = 0;
+
+        int water = 0;
+        while(left < right) {
+            lmax = Math.max(lmax, height[left]);
+            rmax = Math.max(rmax, height[right]);
+
+            if(lmax < rmax) {
+                water += lmax - height[left];
+                left++;
+            } else {
+                water += rmax - height[right];
+                right--;
+            }
+        }
+        return water;
+    }
     //S:(n) T:(n)
     public int trap3(int[] heights){
         int ans = 0;
@@ -898,28 +921,22 @@ public class ArraysQ {
             return 0;
         }
         int n = heights.length;
-        int[] leftmax = new int[n];
-        int[] rightmax = new int[n];
+        int[] leftmax = new int[n];  int[] rightmax = new int[n];
 
-        leftmax[0]  = 0;
-        rightmax[n-1] = 0;
+        leftmax[0]  = 0;  rightmax[n-1] = 0;
 
-        int lmax= heights[0];
-        int rmax = heights[n-1];
+        int lmax= heights[0]; int rmax = heights[n-1];
 
         // to find the leftmax
         for(int i=1;i<n;++i){
             leftmax[i] = lmax;
             lmax = Math.max(lmax,heights[i]);
         }
-
         //to find the right max
         for(int i=n-2;i>=0;--i){
             rightmax[i] = rmax;
             rmax = Math.max(rmax,heights[i]);
         }
-
-
         int trappedWater = 0;
         for(int i=1;i<n;i++){
             if(heights[i]<leftmax[i]  && heights[i]<rightmax[i]) {

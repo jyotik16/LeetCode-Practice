@@ -25,8 +25,11 @@ public class ArrayQ2 {
         int [] J ={5,6,7,8,9,10,3,2,1};
         int [] K = {3, 9, 18, 20, 17, 5, 1};
        // System.out.println(searchInBitonicArray(K,20));
+        int beggars = 5;
+        int [][] donaters = {{1, 2, 10}, {2, 3, 20}, {2, 5, 25}};
+        subContiousQuery(beggars,donaters);
     }
-    public int[] subContiousQuery(int A, int[][] B) {
+    public static int[] subContiousQuery(int A, int[][] B) {
         int[] arr = new int[A];
         for(int i=0;i<B.length;i++){
             int si=B[i][0]-1;
@@ -42,7 +45,6 @@ public class ArrayQ2 {
         }
         return arr;
     }
-
     public static void findMaxSubarray(){
         int A[] = {1,1,2,3,3,4,8,9,11,9,11,12,12,11,9,14,19,20,20};//8,14
         int B[] ={1,2, 4, 3, 2, 5, 3, 6}; //2,6
@@ -124,7 +126,6 @@ public class ArrayQ2 {
         }
         return 1;
     }
-
     public static int[] countOfDivisor(int [] A){
         int[] ans = new int[A.length];
         int n = A.length;
@@ -155,7 +156,6 @@ public class ArrayQ2 {
         }
         return n * fact(n - 1);
     }
-
     static int fact(int n)
     {
         return (n <= 1) ? 1 : n * fact(n - 1);
@@ -180,7 +180,6 @@ public class ArrayQ2 {
         }
         return rank;
     }
-
     static void updatecount(int[] count, char ch) {   int i;
         for (i = ch; i < 256; ++i)
             --count[i];
@@ -206,7 +205,6 @@ public class ArrayQ2 {
         }
         return rank;
     }
-
     //Kth smallest element using selection sort
     static public int kthsmallest(int[] A, int B) {
         int n = A.length;
@@ -228,7 +226,6 @@ public class ArrayQ2 {
         }
         return A[B-1];
     }
-
     static public int[] magicNumber(int[] A) {
         int N = A.length;
         int[] B = new int[2];
@@ -252,7 +249,6 @@ public class ArrayQ2 {
         for (int i=0;i<B.length;i++) System.out.println(B[i]);
         return B;
     }
-
     static public void absolouteNumber(int[] A) {
         int N = A.length;
         Arrays.sort(A);
