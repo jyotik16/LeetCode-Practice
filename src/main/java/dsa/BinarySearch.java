@@ -18,6 +18,48 @@ public class BinarySearch {
        // findKRotation();
        // searchInRotatedArray();
     }
+    public static int paint(int A, int B, int[] C) {
+        long l = Integer.MIN_VALUE;
+        int n = C.length;
+        long ans=0;
+        int mod = 10000003;
+        for(int i=0; i<n; i++){
+            if(l<C[i]){
+                l=C[i];
+            }
+        }
+        long h = 0;
+        for(int i=0; i<n; i++){
+            h+=C[i];
+        }
+        if(A==1){
+            return (int)((h*B)%mod);
+        }
+
+        while(l<=h){
+            long mid = l+(h-l)/2;
+            if(count(C, mid)<=A){
+                ans = mid;
+                h = mid-1;
+            }
+            else{
+                l = mid+1;
+            }
+        }
+        return (int)((ans*B)%mod);
+    }
+    private static int count(int[]C, long mid){
+        int time = 0;
+        int worker = 1;
+        for(int i=0; i<C.length; i++){
+            time+=C[i];
+            if(time>mid){
+                worker++;
+                time = C[i];
+            }
+        }
+        return worker;
+    }
     public int solve(int[] A, int B) {
         int l = 1;
         int h = A.length;
@@ -47,63 +89,63 @@ public class BinarySearch {
         }
         return max;
     }
-        public boolean searchMatrix2(int[][] matrix, int target) {
-        int n = matrix.length; int m = matrix[0].length;
-        int lo = 0; int hi = (n*m)-1;
-        while(lo<=hi){
-            int mid = lo+(hi-lo)/2;
-            int i = mid/m;
-            int j = mid%m;
-            if (matrix[i][j] == target)
-            {return true;}
-            else if (matrix[i][j] < target){
-                lo = mid +1;
-            }else{
-                hi = mid -1;
-            }
+    public boolean searchMatrix2(int[][] matrix, int target) {
+    int n = matrix.length; int m = matrix[0].length;
+    int lo = 0; int hi = (n*m)-1;
+    while(lo<=hi){
+        int mid = lo+(hi-lo)/2;
+        int i = mid/m;
+        int j = mid%m;
+        if (matrix[i][j] == target)
+        {return true;}
+        else if (matrix[i][j] < target){
+            lo = mid +1;
+        }else{
+            hi = mid -1;
         }
-        return false;
+    }
+    return false;
+}
+
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int lo = 0; int hi = matrix.length-1;
+        int row =  searchInrow(lo,hi,matrix,target);
+        if(row  == -1) return false;
+        int col =  binarySearch(row,matrix,target);
+        if(col  == -1) return false;
+        //System.out.println(matrix[row][col] == target);
+        return matrix[row][col] == target;
     }
 
-        public boolean searchMatrix(int[][] matrix, int target) {
-            int lo = 0; int hi = matrix.length-1;
-            int row =  searchInrow(lo,hi,matrix,target);
-            if(row  == -1) return false;
-            int col =  binarySearch(row,matrix,target);
-            if(col  == -1) return false;
-            //System.out.println(matrix[row][col] == target);
-            return matrix[row][col] == target;
-        }
-
-        private static int binarySearch(int row, int[][] matrix,int target) {
-            int lo = 0; int hi = matrix[0].length-1;
-            while(lo<=hi){
-                int mid = (lo+hi)/2;
-                if(target == matrix[row][mid]){
-                    return mid;
-                } else if (target < matrix[row][mid]) {
-                    hi = mid-1;
-                }else{
-                    lo = mid+1;
-                }
+    private static int binarySearch(int row, int[][] matrix,int target) {
+        int lo = 0; int hi = matrix[0].length-1;
+        while(lo<=hi){
+            int mid = (lo+hi)/2;
+            if(target == matrix[row][mid]){
+                return mid;
+            } else if (target < matrix[row][mid]) {
+                hi = mid-1;
+            }else{
+                lo = mid+1;
             }
-            return -1;
         }
+        return -1;
+    }
 
-        private static int searchInrow(int lo, int hi, int[][] matrix,int target) {
-            int lc = matrix[0].length-1;
-            while(lo<=hi){
-                int mid = (lo+hi)/2;
-                if(target >= matrix[mid][0] && target<=matrix[mid][lc]){
-                    return mid;
-                } else if (target < matrix[mid][0]) {
-                    hi = mid-1;
-                }else{
-                    lo = mid+1;
-                }
+    private static int searchInrow(int lo, int hi, int[][] matrix,int target) {
+        int lc = matrix[0].length-1;
+        while(lo<=hi){
+            int mid = (lo+hi)/2;
+            if(target >= matrix[mid][0] && target<=matrix[mid][lc]){
+                return mid;
+            } else if (target < matrix[mid][0]) {
+                hi = mid-1;
+            }else{
+                lo = mid+1;
             }
-            return -1;
         }
+        return -1;
+    }
 
     private static void searchInRotatedArray() {
         int [] ar = {7,6,1,2,3,4,5}; int target = 4;
@@ -155,8 +197,6 @@ public class BinarySearch {
         }
         System.out.println("rotation count:"+r);
     }
-
-
     //349
     static public int[] intersection(int[] A, int[] B) {
         Arrays.sort(A); Arrays.sort(B);
