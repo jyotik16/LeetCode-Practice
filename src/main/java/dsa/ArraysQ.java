@@ -103,7 +103,7 @@ public class ArraysQ {
             }
         }*/
       //  gameplay();
-        calculateRentingWays(4);
+      //  calculateRentingWays(4);
     }
     public static int[] calculateRentingWays(int A) {
         int[] rentalWays = new int[A];

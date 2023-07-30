@@ -24,8 +24,25 @@ public class ArrayQ2 {
        // findMaxSubarray();
         int [] J ={5,6,7,8,9,10,3,2,1};
         int [] K = {3, 9, 18, 20, 17, 5, 1};
-        System.out.println(searchInBitonicArray(K,20));
+       // System.out.println(searchInBitonicArray(K,20));
     }
+    public int[] subContiousQuery(int A, int[][] B) {
+        int[] arr = new int[A];
+        for(int i=0;i<B.length;i++){
+            int si=B[i][0]-1;
+            int ei=B[i][1]-1;
+            int val=B[i][2];
+            arr[si]+=val;
+            if(ei+1<A){
+                arr[ei+1]-=val;
+            }
+        }
+        for(int i=1;i<A;i++){
+            arr[i]=arr[i-1]+arr[i];
+        }
+        return arr;
+    }
+
     public static void findMaxSubarray(){
         int A[] = {1,1,2,3,3,4,8,9,11,9,11,12,12,11,9,14,19,20,20};//8,14
         int B[] ={1,2, 4, 3, 2, 5, 3, 6}; //2,6
@@ -76,93 +93,93 @@ public class ArrayQ2 {
         int[] ans2 = {i,j};
         return ans2;
     }
-        public static int solve(int[] A) {
-            int size = 100001;
-            HashSet<Integer> set = new HashSet<>();
-            HashSet<Integer> ans = new HashSet<>();
-            for(int i=0; i<A.length; i++)
-                set.add(A[i]);
-            for(int i=2; i<size; i++){
-                if(isPrime(i)==1) {
-                    for(int j=i; j<size; j+=i) {
-                        if(set.contains(j)) {
-                            ans.add(i);
-                        }
+    public static int solve(int[] A) {
+        int size = 100001;
+        HashSet<Integer> set = new HashSet<>();
+        HashSet<Integer> ans = new HashSet<>();
+        for(int i=0; i<A.length; i++)
+            set.add(A[i]);
+        for(int i=2; i<size; i++){
+            if(isPrime(i)==1) {
+                for(int j=i; j<size; j+=i) {
+                    if(set.contains(j)) {
+                        ans.add(i);
                     }
                 }
             }
-            return ans.size();
         }
-        public static int isPrime(int A){
-            if(A==2 || A==3){
-                return 1;
-            }
-            if(A==1){
-                return 0;
-            }
-            for(int i=2; i*i<=A; i++){
-                if(A%i==0){
-                    return 0;
-                }
-            }
+        return ans.size();
+    }
+    public static int isPrime(int A){
+        if(A==2 || A==3){
             return 1;
         }
+        if(A==1){
+            return 0;
+        }
+        for(int i=2; i*i<=A; i++){
+            if(A%i==0){
+                return 0;
+            }
+        }
+        return 1;
+    }
 
-        public static int[] countOfDivisor(int [] A){
-            int[] ans = new int[A.length];
-            int n = A.length;
-            int max = Integer.MIN_VALUE;
-            for(int i=0; i<n; i++) {
-                max = Math.max(max, A[i]);
-            }
-            int[] temp = new int[max + 1];
-            Arrays.fill(temp, 2);
-            for(int i=2; i<=max; i++) {
-                for(int j=2*i; j<=max; j+=i) {
-                    temp[j]+=1;
-                }
-            }
-            for(int i=0;i<n; i++) {
-                if(A[i]==1) {
-                    ans[i] = 1;
-                }
-                else {
-                    ans[i] = temp[A[i]];
-                }
-            }
-            return ans;
+    public static int[] countOfDivisor(int [] A){
+        int[] ans = new int[A.length];
+        int n = A.length;
+        int max = Integer.MIN_VALUE;
+        for(int i=0; i<n; i++) {
+            max = Math.max(max, A[i]);
         }
-        public static int fact2(int n) {
-            if (n <= 1) {
-                return 1;
+        int[] temp = new int[max + 1];
+        Arrays.fill(temp, 2);
+        for(int i=2; i<=max; i++) {
+            for(int j=2*i; j<=max; j+=i) {
+                temp[j]+=1;
             }
-            return n * fact(n - 1);
         }
+        for(int i=0;i<n; i++) {
+            if(A[i]==1) {
+                ans[i] = 1;
+            }
+            else {
+                ans[i] = temp[A[i]];
+            }
+        }
+        return ans;
+    }
+    public static int fact2(int n) {
+        if (n <= 1) {
+            return 1;
+        }
+        return n * fact(n - 1);
+    }
 
-        static int fact(int n)
-        {
-            return (n <= 1) ? 1 : n * fact(n - 1);
-        }
-        static int findSmallerInRight(String str, int low,int high) {
-            int countRight = 0, i;
-            for (i = low + 1; i <= high; ++i)
-                if (str.charAt(i) < str.charAt(low))
-                    ++countRight;
-            return countRight;
-        }
-        static int findRank(String str) {
-            int len = str.length();
-            int mul = fact(len);
-            int rank = 1;
-            int countRight;
+    static int fact(int n)
+    {
+        return (n <= 1) ? 1 : n * fact(n - 1);
+    }
+    static int findSmallerInRight(String str, int low,int high) {
+        int countRight = 0, i;
+        for (i = low + 1; i <= high; ++i)
+            if (str.charAt(i) < str.charAt(low))
+                ++countRight;
+        return countRight;
+    }
+    static int findRank(String str) {
+        int len = str.length();
+        int mul = fact(len);
+        int rank = 1;
+        int countRight;
 
-            for (int i = 0; i < len; ++i) {
-                mul /= len - i;
-                countRight = findSmallerInRight(str, i, len - 1);
-                rank += countRight * mul;
-            }
-            return rank;
+        for (int i = 0; i < len; ++i) {
+            mul /= len - i;
+            countRight = findSmallerInRight(str, i, len - 1);
+            rank += countRight * mul;
         }
+        return rank;
+    }
 
     static void updatecount(int[] count, char ch) {   int i;
         for (i = ch; i < 256; ++i)
