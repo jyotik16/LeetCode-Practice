@@ -27,7 +27,43 @@ public class ArrayQ2 {
        // System.out.println(searchInBitonicArray(K,20));
         int beggars = 5;
         int [][] donaters = {{1, 2, 10}, {2, 3, 20}, {2, 5, 25}};
-        subContiousQuery(beggars,donaters);
+      //  subContiousQuery(beggars,donaters);
+        int[] subarray = {-2,-3,4,-1,-2,1,5,-3};
+        maxSubArraySumWithIndex(subarray);
+    }
+    static int maxSubArraySumWithIndex(int a[])
+    {
+        int size = a.length;  int max_so_far = Integer.MIN_VALUE, max_ending_here = 0;
+        int si = 0; int ei = 0; int s =0;
+        for (int i = 0; i < size; i++) {
+                max_ending_here = max_ending_here + a[i];
+            if (max_so_far < max_ending_here) {
+                max_so_far = max_ending_here;
+                ei = i;
+                si = s;
+            }
+            if (max_ending_here < 0) {
+                max_ending_here = 0;
+                s = i + 1;
+            }
+        }
+        System.out.println("start index:"+(si));
+        System.out.println("end index:"+(ei));
+        return max_so_far;
+    }
+    //Kadane's Algo = continous sub-array max sum find
+    static int maxSubArraySum(int a[])
+    {
+        int size = a.length;
+        int max_so_far = Integer.MIN_VALUE, max_ending_here = 0;
+        for (int i = 0; i < size; i++) {
+            max_ending_here = max_ending_here + a[i];
+            if (max_so_far < max_ending_here)
+                max_so_far = max_ending_here;
+            if (max_ending_here < 0)
+                max_ending_here = 0;
+        }
+        return max_so_far;
     }
     public static int[] subContiousQuery(int A, int[][] B) {
         int[] arr = new int[A];
