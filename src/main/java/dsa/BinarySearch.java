@@ -17,7 +17,74 @@ public class BinarySearch {
        // intersection(A,B);
        // findKRotation();
        // searchInRotatedArray();
+        int C[] = {12,34,67,90};
+        int student = 2;
+       // int ans = findPages(C,C.length,student);
+       // System.out.println("Minimum Numbers Of Pages:"+ans);
     }
+    public static int calculateAthSmallestNumber(int A, int B, int C) {
+        long a = A; long b = B; long c = C;
+        int mod = 1000000007;
+        long left = 1; long right = a * Math.min(B, C); long ans = -1;
+        while(left<=right){
+            long mid = (left+right)/2;
+            if(totalMagicNumber(mid,b,c)>=a)
+            {
+                ans = mid;
+                right = mid-1;
+            }
+            else{
+                left = mid+1;
+            }
+        }
+        return (int)(ans%mod);
+    }
+    // for calculating total magical number till mid.
+    public static long totalMagicNumber(long mid, long b, long c){
+        long lcm = (b*c)/gcd(b,c); // LCM = (no1 * no2 / HCF(no1, no2))
+        return (((mid/b)+(mid/c))-(mid/lcm));
+    }
+    // for calculating GCD
+    public static long gcd(long a, long b) {
+        if (a == 0)
+            return b;
+        return gcd(b % a, a);
+    }
+
+
+    static int findPages(int arr[], int n, int m) {
+        if (n < m) return -1;  // return -1 if no. of books is less than
+        int sum = 0;
+        for (int i = 0; i < n; i++) {
+            sum += arr[i];
+        }
+        int start = arr[n - 1], end = sum;
+        int result = Integer.MAX_VALUE;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (isPossible(arr, n, m, mid)) {
+                result = mid;
+                end = mid - 1; // as we are finding minimum so,
+            }
+            else
+                start = mid + 1;
+        }
+        return result;
+    }
+    static boolean isPossible(int arr[], int n, int m,int curr_min) {
+        int studentsRequired = 1;
+        int curr_sum = 0;
+        for (int i = 0; i < n; i++) {
+            curr_sum += arr[i];
+            if (curr_sum > curr_min) {
+                studentsRequired++;
+                curr_sum = arr[i];
+            }
+        }
+        return studentsRequired <= m;
+    }
+
     public static int paint(int A, int B, int[] C) {
         long l = Integer.MIN_VALUE;
         int n = C.length;
@@ -106,7 +173,6 @@ public class BinarySearch {
     }
     return false;
 }
-
     public boolean searchMatrix(int[][] matrix, int target) {
         int lo = 0; int hi = matrix.length-1;
         int row =  searchInrow(lo,hi,matrix,target);
@@ -116,7 +182,6 @@ public class BinarySearch {
         //System.out.println(matrix[row][col] == target);
         return matrix[row][col] == target;
     }
-
     private static int binarySearch(int row, int[][] matrix,int target) {
         int lo = 0; int hi = matrix[0].length-1;
         while(lo<=hi){
@@ -131,7 +196,6 @@ public class BinarySearch {
         }
         return -1;
     }
-
     private static int searchInrow(int lo, int hi, int[][] matrix,int target) {
         int lc = matrix[0].length-1;
         while(lo<=hi){
@@ -146,7 +210,6 @@ public class BinarySearch {
         }
         return -1;
     }
-
     private static void searchInRotatedArray() {
         int [] ar = {7,6,1,2,3,4,5}; int target = 4;
         int pivot = findPivot(ar);
@@ -183,7 +246,6 @@ public class BinarySearch {
         System.out.println("pivot index:"+r);
         return r;
     }
-
     private static void findKRotation() {
         int [] ar = {7,6,1,2,3,4,5};
         int l = 0; int r = ar.length-1;
@@ -229,7 +291,6 @@ public class BinarySearch {
         }
         return res;
     }
-
     private static void findMaximumLengthOfSubarrayWhoseSumEqualtoTarget() {
         int [] ar = {5,11,17,100};
         int n = ar.length;
@@ -248,7 +309,6 @@ public class BinarySearch {
         }
         System.out.println("maximum length :"+max);
     }
-
     private static int binarySearch(int start, int end, int[] prefixSums, int target) {
         while (start <= end) {
             int mid = start + (end - start) / 2;
@@ -278,8 +338,6 @@ public class BinarySearch {
         }
         return max;
     }
-
-
     private static void findFirstIndexOfElement(int[] ar,int target) {
         int lo = 0; int hi = ar.length-1;
         while(lo<=hi){
@@ -294,7 +352,6 @@ public class BinarySearch {
         }
         System.out.println("first index:"+(hi+1));
     }
-
     private static void findLastIndexOfElement(int[] ar,int target) {
         int lo = 0; int hi = ar.length-1;
         while(lo<=hi){
@@ -309,7 +366,6 @@ public class BinarySearch {
         }
         System.out.println("first index:"+(hi));
     }
-
     static int findtargetElementIndex(int[] arr, int n, int K) {
         //O(n)
         for(int i = 0; i < n; i++)
@@ -338,7 +394,6 @@ public class BinarySearch {
         }
         System.out.println("inserted position :"+(hi+1));
     }
-
     private static void findUniqueElement() {
         int [] ar = {2,2,3,3,4,4,5,5,6};
         int n = ar.length;
