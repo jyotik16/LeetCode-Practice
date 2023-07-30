@@ -22,6 +22,34 @@ public class BinarySearch {
        // int ans = findPages(C,C.length,student);
        // System.out.println("Minimum Numbers Of Pages:"+ans);
     }
+    public static int KthPrice(int []A,int K){
+        int l = A[0]; int h = A[0];
+        for (int i = 1; i <A.length ; i++) {
+            l = Math.min(A[i],l);
+            h = Math.max(A[i],h);
+        }
+        int ans =0;
+        while(l<=h){
+            int mid = (l+h)/2;
+            if(countSmalerElements(A,mid)>=K){
+                ans = mid; h = mid-1;
+            }else{
+                l = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    private static int countSmalerElements(int[] a, int mid) {
+        int count = 0;
+        for (int i = 0; i < a.length; i++) {
+            if(a[i]<=mid){
+                count++;
+            }
+        }
+        return count;
+    }
+
     public static int calculateAthSmallestNumber(int A, int B, int C) {
         long a = A; long b = B; long c = C;
         int mod = 1000000007;
@@ -50,8 +78,6 @@ public class BinarySearch {
             return b;
         return gcd(b % a, a);
     }
-
-
     static int findPages(int arr[], int n, int m) {
         if (n < m) return -1;  // return -1 if no. of books is less than
         int sum = 0;
