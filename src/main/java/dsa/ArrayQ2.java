@@ -29,8 +29,48 @@ public class ArrayQ2 {
         int [][] donaters = {{1, 2, 10}, {2, 3, 20}, {2, 5, 25}};
       //  subContiousQuery(beggars,donaters);
         int[] subarray = {-2,-3,4,-1,-2,1,5,-3};
-        maxSubArraySumWithIndex(subarray);
+        int[] subarray2 = {-2,1,-3,4,-1,2,1,-5,4};
+       // maxSubArraySumWithIndex(subarray2);
     }
+    public static void maxNonNegativeSubArray(){
+        int[] subarray2 = {1, 2, 5, -7, 2, 3};
+        int [] res = maxset(subarray2);
+        for (int i = 0; i < res.length; i++) {
+            System.out.print(res[i]+" ");
+        }
+    }
+    public static int[] maxset(int[] A) {
+        int sum=0;
+        int ans = Integer.MIN_VALUE;
+        int n = A.length;
+        int sumsp=0;
+        int sumep=0;
+        int anssp=0;
+        int ansep=0;
+        for(int i=0;i<A.length;i++){
+            if(sum>=0){
+                sum+=A[i];
+                sumep=i;
+            }
+            else{
+                sum=A[i];
+                sumsp=i;
+                sumep=i;
+            }
+            if(sum>ans){
+                ans=sum;
+                anssp=sumsp;
+                ansep=sumep;
+            }
+        }
+        int m = ansep - anssp + 1;
+        int sub[] = new int[m];
+        for(int i=anssp; i<=ansep;i++){
+            sub[i] = A[i];
+        }
+        return sub;
+    }
+
     static int maxSubArraySumWithIndex(int a[])
     {
         int size = a.length;  int max_so_far = Integer.MIN_VALUE, max_ending_here = 0;
@@ -47,6 +87,7 @@ public class ArrayQ2 {
                 s = i + 1;
             }
         }
+        System.out.println("maximum sum:"+max_so_far);
         System.out.println("start index:"+(si));
         System.out.println("end index:"+(ei));
         return max_so_far;
