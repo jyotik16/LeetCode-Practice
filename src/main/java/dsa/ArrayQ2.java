@@ -32,6 +32,39 @@ public class ArrayQ2 {
         int[] subarray2 = {-2,1,-3,4,-1,2,1,-5,4};
        // maxSubArraySumWithIndex(subarray2);
     }
+    //flip
+    public static  int[] flip(String A) {
+        int n = A.length();
+        int ans[] = new int[2];
+        int start = 0;
+        int ansStart = -1;
+        int ansEnd = -1;
+        int sum = 0;
+        int max = Integer.MIN_VALUE;
+        for(int i=0; i<n; i++){
+            if(A.charAt(i) == '0'){
+                sum++;
+                if(sum > max){
+                    max = sum;
+                    ansStart = start;
+                    ansEnd = i;
+                }
+            }
+            else if(A.charAt(i) == '1'){
+                sum--;
+                if(sum < 0){
+                    sum = 0;
+                    start = i+1;
+                }
+            }
+        }
+        ans[0] = ansStart+1;
+        ans[1] = ansEnd+1;
+        if(ans[0] == 0 && ans[1] == 0){
+            return new int[0];
+        }
+        return ans;
+    }
     public static void maxNonNegativeSubArray(){
         int[] subarray2 = {1, 2, 5, -7, 2, 3};
         int [] res = maxset(subarray2);
@@ -71,8 +104,7 @@ public class ArrayQ2 {
         return sub;
     }
 
-    static int maxSubArraySumWithIndex(int a[])
-    {
+    static int maxSubArraySumWithIndex(int a[]) {
         int size = a.length;  int max_so_far = Integer.MIN_VALUE, max_ending_here = 0;
         int si = 0; int ei = 0; int s =0;
         for (int i = 0; i < size; i++) {
@@ -93,8 +125,7 @@ public class ArrayQ2 {
         return max_so_far;
     }
     //Kadane's Algo = continous sub-array max sum find
-    static int maxSubArraySum(int a[])
-    {
+    static int maxSubArraySum(int a[]) {
         int size = a.length;
         int max_so_far = Integer.MIN_VALUE, max_ending_here = 0;
         for (int i = 0; i < size; i++) {
