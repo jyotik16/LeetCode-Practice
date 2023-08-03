@@ -31,6 +31,7 @@ public class ArrayQ2 {
         int[] subarray = {-2,-3,4,-1,-2,1,5,-3};
         int[] subarray2 = {-2,1,-3,4,-1,2,1,-5,4};
        // maxSubArraySumWithIndex(subarray2);
+        flip("010");
     }
     //flip
     public static  int[] flip(String A) {
