@@ -4,7 +4,48 @@ import java.util.Arrays;
 
 public class DP1 {
     public static void main(String[] args) {
-        coinChange();
+       // coinChange();
+        houseRobber();
+    }
+    private static void houseRobber() {
+        int [] house = {1,2,3,1};
+        int n = house.length;
+       // int res = recursion(house,house.length-1);
+        int [] dp = new int[n+1];
+        Arrays.fill(dp,-1);
+       // int res = memorization(house,n-1,dp);
+        int res = tabulation(house,n-1,dp);
+        System.out.println(res);
+    }
+    private static int tabulation(int[] house, int n, int[] dp) {
+       dp[0]  = house[0];
+       for (int i=1;i<=n;i++){
+           int temp = 0;
+           if (i-2 >= 0){
+               temp = dp[i-2];
+           }
+           int include = temp + house[i];
+           int exclude = dp[i-1];
+           dp[i] = Math.max(include,exclude);
+       }
+       return dp[n];
+    }
+    private static int memorization(int[] house, int n,int []dp) {
+        if(n<0) {
+            return 0;
+        }
+        if(dp[n]!=-1) return dp[n];
+        int include = memorization(house,n-2,dp) + house[n];
+        int exclude = memorization(house,n-1,dp);
+        return dp[n] = Math.max(include,exclude);
+    }
+    private static int recursion(int[] house,int n) {
+        if(n<0) {
+            return 0;
+        }
+        int include = recursion(house,n-2) + house[n];
+        int exclude = recursion(house,n-1);
+        return Math.max(include,exclude);
     }
     public static void coinChange(){
         int [] coin = {1,2,5}; int target = 11;
@@ -13,13 +54,13 @@ public class DP1 {
        System.out.println(res);
        
     }
-    public int memoization(int[] coins, int amount) {
+    public static int memoization(int[] coins, int amount) {
         int[] dp = new int[amount+1];
         Arrays.fill(dp, -1);
         int res = recursion(coins, amount, 0, dp);
         return res == Integer.MAX_VALUE  ? -1 : res;
     }
-    public int recursion(int[] coins, int amount, int number, int[] dp){
+    public static int recursion(int[] coins, int amount, int number, int[] dp){
         if(amount == 0)
             return 0;
         int res = Integer.MAX_VALUE;
@@ -36,7 +77,6 @@ public class DP1 {
         }
         return dp[amount] = res;
     }
-
     private static int recCoinChange(int []coins, int amount,int number){
         if(amount == 0)
             return number;
@@ -47,7 +87,6 @@ public class DP1 {
             res = Math.min(res, recCoinChange(coins, amount-coins[i], number+1));
         return res;
     }
-
     private static int coinChangeBottomUpDp(int []coins, int amount){
         /*
            0 1 1 2 2 1 2 2 3 3 2 3 3   (minimum coin required tp achieve target)
@@ -77,4 +116,5 @@ public class DP1 {
         }
         return dp[amount]!=Integer.MAX_VALUE?dp[amount]:-1;
     }
+
 }
