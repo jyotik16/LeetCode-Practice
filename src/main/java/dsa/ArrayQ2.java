@@ -31,7 +31,77 @@ public class ArrayQ2 {
         int[] subarray = {-2,-3,4,-1,-2,1,5,-3};
         int[] subarray2 = {-2,1,-3,4,-1,2,1,-5,4};
        // maxSubArraySumWithIndex(subarray2);
-        flip("010");
+      //  flip("010");
+      //  sumOfmatrics();
+        sumOfsubmatrics();
+    }
+    public static void sumOfsubmatrics(){
+    int [][] A = { {1, 2, 3},
+                    {4, 5, 6},
+                    {7, 8, 9} };
+    int [] B = {1,2}; int [] C = {1,2};
+    int [] D = {2,3}; int [] E = {2,3};
+        int [] res = sumOfsubmatricsSol(A,B,C,D,E);
+        for (int i = 0; i < res.length; i++) {
+            System.out.println(res[i]);
+        }
+    }
+    public static int[] sumOfsubmatricsSol(int[][] A, int[] B, int[] C, int[] D, int[] E) {
+        int n = A.length;
+        int m = A[0].length;
+        int modNum = 1000000007;
+        long pfr[][] = new long[n][m];
+        for(int i=0;i<n;i++){
+            pfr[i][0] = A[i][0];
+            for(int j=1;j<m;j++){
+                pfr[i][j] = pfr[i][j-1]+A[i][j];
+            }
+        }
+        long pfc[][] = new long[n][m];
+        for(int i=0;i<m;i++){
+            pfc[0][i] = pfr[0][i];
+            for(int j=1;j<n;j++){
+                pfc[j][i] = pfc[j-1][i]+pfr[j][i];
+            }
+        }
+        int ans[]=new int[B.length];
+        for(int i=0;i<B.length;i++){
+            int x1=B[i]-1;
+            int y1=C[i]-1;
+            int x2=D[i]-1;
+            int y2=E[i]-1;
+            long sum=0;
+            sum=sum+pfc[x2][y2];
+            if(x1>0){
+                sum=sum-pfc[x1-1][y2];
+            }
+            if(y1>0){
+                sum=sum-pfc[x2][y1-1];
+            }
+            if(x1>0 && y1>0){
+                sum=sum+pfc[x1-1][y1-1];
+            }
+            ans[i] = (int)(((sum % modNum) + modNum) % modNum);
+        }
+        return ans;
+    }
+    public static void sumOfmatrics(){
+        int [][] mat = {{1,1},
+                    {1,1} };
+        int res = sumOfmatricsSol(mat);
+        System.out.println("res::"+res);
+    }
+    public static int sumOfmatricsSol(int[][] A) {
+        int ans=0;
+        int n = A.length;
+        int m = A[0].length;
+        for(int i=0;i<A.length;i++){
+            for(int j=0;j<A[0].length;j++){
+                int freq = (i+1)*(j+1)*(n-i)*(m-j);
+                ans+=(A[i][j]*freq);
+            }
+        }
+        return ans;
     }
     //flip
     public static  int[] flip(String A) {
