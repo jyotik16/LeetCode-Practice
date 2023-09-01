@@ -10,12 +10,116 @@ public class StringsQ {
       //  System.out.println(simplifyPath("/a/./b/../../c/"));
       //  System.out.println(strStr("butsaf","sad"));;
       //  System.out.println(findAnagrams("cbaebabacd","abc"));
-        StringBuilder id = new StringBuilder("FNT699754632");
-        String [] ids = id.indexOf("_")==-1?id.toString().split(""):id.toString().split("_");
-        System.out.println(ids[0]+" "+ids[1]);
-        System.out.println(ids[1].substring(0,1).toString().startsWith("T"));
-        System.out.println(ids[1].substring(1).toString());
+      //  StringBuilder id = new StringBuilder("FNT699754632");
+      //  String [] ids = id.indexOf("_")==-1?id.toString().split(""):id.toString().split("_");
+      //  System.out.println(ids[0]+" "+ids[1]);
+      //  System.out.println(ids[1].substring(0,1).toString().startsWith("T"));
+       // System.out.println(ids[1].substring(1).toString());
+        shopPenalty("YYNY");
     }
+    // 2483
+    public static int shopPenalty(String customers) {
+       // return bruteforce(customers);
+       // return optimized(customers);
+        return spaceOptimized(customers);
+    }
+
+    private static int spaceOptimized(String customers) {
+        int n = customers.length();
+        int min_penalty = 0;
+        int min_hour = 0;
+        int penalty =0;
+        for (int i = 0; i < n; i++) {
+            if(customers.charAt(i) == 'Y')
+                penalty++;
+        }
+        min_penalty = penalty;
+        for (int i = 0; i < n; i++) {
+            if (customers.charAt(i) == 'Y'){
+                penalty--;
+            }else {
+                penalty++;
+            }
+            if (penalty<min_penalty){
+                min_penalty = penalty;
+                min_hour = i+1;
+            }
+        }
+        return min_hour;
+    }
+
+    private static int optimized(String customers) {
+        int n = customers.length();
+        int[] prefixN = new int[n+1];
+        int[] suffixY = new int[n+1];
+
+        prefixN[0] = 0;
+        suffixY[n] = 0;
+        int min_penality = Integer.MAX_VALUE;
+        int min_hour = Integer.MIN_VALUE;
+
+
+        for (int i = 1; i <=n; i++) {
+            if (customers.charAt(i-1) == 'N'){
+                prefixN[i] = prefixN[i-1] + 1;
+            }else{
+                prefixN[i] = prefixN[i-1];
+            }
+        }
+        for (int i = n-1; i >=0; i--) {
+            if (customers.charAt(i) == 'Y'){
+                suffixY[i] = suffixY[i+1] + 1;
+            }else{
+                suffixY[i] = suffixY[i+1];
+            }
+        }
+
+        for (int i = 0; i <=n ; i++) {
+            int currPenality = prefixN[i] + suffixY[i];
+            if (currPenality<min_penality){
+                min_penality = currPenality;
+                min_hour = i;
+            }
+        }
+
+        return min_hour;
+    }
+
+    private static int bruteforce(String customers) {
+        int n = customers.length();
+        int min_penality = Integer.MAX_VALUE;
+        int min_hour = Integer.MIN_VALUE;
+        int penality =0;
+        for (int i = 0; i <=n; i++) {
+            int j = i-1;
+            penality = 0;
+            while(j>=0){
+                if (customers.charAt(j) == 'N')
+                    penality++;
+                j--;
+            }
+            j=i;
+            while(j<n){
+                if (customers.charAt(j) == 'Y')
+                    penality++;
+                j++;
+            }
+            if(penality<min_penality){
+                min_hour = i;
+                min_penality = penality;
+            }
+        }
+        for (int i = 0; i < n; i++) {
+            if (customers.charAt(i) == 'N')
+                penality++;
+        }
+        if(penality<min_penality){
+            min_hour = n;
+            min_penality = penality;
+        }
+        return min_hour;
+    }
+
     //438
     public static List<Integer> findAnagrams(String txt, String pat) {
         List<Integer> count = new ArrayList<>();
