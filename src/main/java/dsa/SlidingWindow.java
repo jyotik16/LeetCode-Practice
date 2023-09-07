@@ -1,16 +1,46 @@
 package dsa;
 
-import java.util.HashMap;
+import java.util.*;
 
 public class SlidingWindow {
     public static void main(String[] args) {
         String s = "ADOBECODEBANC";
         String t = "ABC";
-        String res = minWindow(s,t);
-        System.out.println(res);
-        System.out.println(s.substring(9,13));
+       // String res = minWindow(s,t);
+        //System.out.println(res);
+       // System.out.println(s.substring(9,13));
+        int [] ar = {1,1,3};
+       // sumoflength(ar,ar.length);
     }
 
+    public static int sumoflength(int[] arr, int n) {
+
+        // For maintaining distinct elements.
+        Set<Integer> s = new HashSet<>();
+
+        // Initialize ending point and result
+        int j = 0, ans = 0;
+
+        // Fix starting point
+        for (int i = 0; i < n; i++)
+        {
+            while (j < n && !s.contains(arr[j]))
+            {
+                s.add(arr[j]);
+                j++;
+            }
+
+            // Calculating and adding all possible length
+            // subarrays in arr[i..j]
+            ans += ((j - i) * (j - i + 1)) / 2;
+
+            // Remove arr[i] as we pick new starting point
+            // from next
+            s.remove(arr[i]);
+        }
+
+        return ans;
+    }
     public static String minWindow(String s, String t) {
         int n = s.length();
         int m = t.length();
