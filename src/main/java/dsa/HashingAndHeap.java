@@ -9,8 +9,8 @@ public class HashingAndHeap {
         long a2[] = {19, 5, 3};
         //System.out.println(isSubset(a1,a2,a1.length,a2.length));
     }
-    public static Node findIntersection(Node head1, Node head2)
-    {
+    //https://practice.geeksforgeeks.org/problems/intersection-of-two-linked-list/1
+    public static Node findIntersection(Node head1, Node head2) {
         // add your code here
         // return the head of intersection list
         //NOTE:we need to maintain the order according to first LL that'why adding
@@ -51,6 +51,7 @@ public class HashingAndHeap {
         t2.next = null;
         return head3;
     }
+
     static void displayLL(Node head){
         Node t = head;
         while(t!=null){
