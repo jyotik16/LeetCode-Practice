@@ -11,6 +11,58 @@ public class SlidingWindow {
        // System.out.println(s.substring(9,13));
         int [] ar = {1,1,3};
        // sumoflength(ar,ar.length);
+        search();
+    }
+
+    private static void search() {
+        String txt = "forxxorfxdofr";
+        String pat = "for";
+        countAnagrams(txt, pat);
+    }
+    //https://practice.geeksforgeeks.org/problems/count-occurences-of-anagrams5839/1
+    //Not working
+    static int countAnagrams(String pat, String txt) {
+        int n = txt.length();
+        int m = pat.length();
+        int i=0,j=0;
+        if(n<m) return 0;
+        HashMap<Character,Integer> map = new HashMap<>();
+        for (int k = 0; k < m; k++) {
+            char ch = pat.charAt(k);
+            if(!map.containsKey(ch)){
+                map.put(ch,1);
+            }else{
+                map.put(ch, map.getOrDefault(ch,0)+1);
+            }
+        }
+        int windowSize = m;
+        int countOccurrence = 0;
+        while(j<n){
+            char ch = txt.charAt(j);
+            if(map.containsKey(ch) && map.get(ch)>0){
+                int c = map.get(ch);
+                map.put(ch,c-1);
+            }
+            if(windowSize == (j-i+1)){
+                if(allZeros(map))
+                    countOccurrence++;
+                char chi = txt.charAt(i);
+                if(map.containsKey(chi)){
+                    int c = map.get(chi);
+                    map.put(chi,c+1);
+                }
+                i++;
+            }
+            j++;
+        }
+        return countOccurrence;
+    }
+    private static boolean allZeros(HashMap<Character, Integer> map) {
+        for (char key:map.keySet()) {
+            if (map.get(key) != 0)
+                return false;
+        }
+        return true;
     }
 
     public static int sumoflength(int[] arr, int n) {
