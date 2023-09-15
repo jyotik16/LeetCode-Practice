@@ -11,8 +11,36 @@ public class SlidingWindow {
        // System.out.println(s.substring(9,13));
         int [] ar = {1,1,3};
        // sumoflength(ar,ar.length);
-        search();
+       // search();
     }
+    //https://practice.geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1
+    public long[] printFirstNegativeInteger(long A[], int N, int K)
+    {
+        ArrayList<Long> list = new ArrayList<>();
+        LinkedList<Long> pq = new LinkedList(); //why LL becoz order need to maintain
+        int i = 0, j = 0;
+        while(j<N){
+            if(A[j]<0){
+                pq.add(A[j]);
+            }
+            if(j-i+1 == K){
+                long val = pq.isEmpty()==true?0:pq.peek();
+                list.add(val);
+                if(A[i]<0 && !pq.isEmpty()){ //that mean first element is neg
+                    pq.remove();
+                }
+                i++;
+            }
+            j++;
+        }
+        long[] ans = new long[list.size()];
+        j=0;
+        for (long ele:list){
+            ans[j] = ele; j++;
+        }
+        return ans;
+    }
+
 
     private static void search() {
         String txt = "forxxorfxdofr";
