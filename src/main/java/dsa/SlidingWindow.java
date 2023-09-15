@@ -13,6 +13,30 @@ public class SlidingWindow {
        // sumoflength(ar,ar.length);
        // search();
     }
+    //https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/
+    //O(n) O(1)
+    public int maxVowels(String s, int k) {
+        int n = s.length();
+        int maxV  = 0;
+        int count = 0;
+        int i = 0, j = 0;
+        while(j < n) {
+            if(isVowel(s.charAt(j)))
+                count++;
+
+            if(j-i+1 == k) {
+                maxV = Math.max(maxV, count);
+                if(isVowel(s.charAt(i)))
+                    count--;
+                i++;
+            }
+            j++;
+        }
+        return maxV;
+    }
+    private boolean isVowel(char c) {
+        return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';
+    }
     //https://leetcode.com/problems/count-subarrays-with-fixed-bounds/submissions/
     public long countSubarrays(int[] A, int minK, int maxK) {
         long res = 0, badIndx = -1, jmin = -1, jmax = -1, n = A.length;
