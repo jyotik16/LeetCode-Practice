@@ -13,6 +13,21 @@ public class SlidingWindow {
        // sumoflength(ar,ar.length);
        // search();
     }
+    //https://leetcode.com/problems/count-subarrays-with-fixed-bounds/submissions/
+    public long countSubarrays(int[] A, int minK, int maxK) {
+        long res = 0, badIndx = -1, jmin = -1, jmax = -1, n = A.length;
+        for (int i = 0; i < n; ++i) {
+            if (A[i] < minK || A[i] > maxK)
+                badIndx = i;
+            if (A[i] == minK)
+                jmin = i;
+            if (A[i] == maxK)
+                jmax = i;
+            long smaller = Math.min(jmin, jmax);
+            res += Math.max(0L, smaller - badIndx);
+        }
+        return res;
+    }
     //https://leetcode.com/problems/contains-duplicate-ii/
     public boolean containsNearbyDuplicate(int[] nums, int k) {
         int i=0,j=0; int n = nums.length;
