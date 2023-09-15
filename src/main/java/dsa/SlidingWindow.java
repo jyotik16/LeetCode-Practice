@@ -13,9 +13,39 @@ public class SlidingWindow {
        // sumoflength(ar,ar.length);
        // search();
     }
+    //https://leetcode.com/problems/contains-duplicate-ii/
+    public boolean containsNearbyDuplicate(int[] nums, int k) {
+        int i=0,j=0; int n = nums.length;
+        HashSet<Integer> set = new HashSet<>();
+        while(j<n){
+            if(Math.abs(j-i)>k){
+                set.remove(nums[i]);
+                i++;
+            }
+            if (set.contains(nums[j])){
+                return true;
+            }else{
+                set.add(nums[j]);
+            }
+            j++;
+        }
+        return false;
+    }
+    //O(n) O(n)
+    public boolean containsNearbyDuplicate2(int[] nums, int k) {
+        if (k == 0) return false;
+
+        Map<Integer, Integer> hashMap = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            int integer = nums[i];
+            if (hashMap.containsKey(integer) && i - hashMap.get(integer) <= k)
+                return true;
+            hashMap.put(integer, i);
+        }
+        return false;
+    }
     //https://practice.geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1
-    public long[] printFirstNegativeInteger(long A[], int N, int K)
-    {
+    public long[] printFirstNegativeInteger(long A[], int N, int K) {
         ArrayList<Long> list = new ArrayList<>();
         LinkedList<Long> pq = new LinkedList(); //why LL becoz order need to maintain
         int i = 0, j = 0;
@@ -40,7 +70,6 @@ public class SlidingWindow {
         }
         return ans;
     }
-
 
     private static void search() {
         String txt = "forxxorfxdofr";
