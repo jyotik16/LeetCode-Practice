@@ -63,9 +63,9 @@ public class HashingAndHeap {
         // return the head of intersection list
         //NOTE:we need to maintain the order according to first LL that'why adding
         // second LL into the HaspMap
-        HashMap<Integer,Integer> map = new HashMap<>();
-        Node t1 = head2; // 2LL
-        while (t1!=null){
+        HashMap<Integer,Integer> map = new HashMap<>();   // 8 4 2 10 LL2
+        Node t1 = head2; // 2LL                           // 10 15 4 20 LL1
+        while (t1!=null){                                  // head3/t2
             if(!map.containsKey(t1.data)){
                 map.put(t1.data,1);
             }else{
