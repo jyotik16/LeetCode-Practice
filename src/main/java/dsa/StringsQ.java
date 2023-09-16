@@ -16,87 +16,8 @@ public class StringsQ {
       //  System.out.println(ids[1].substring(0,1).toString().startsWith("T"));
        // System.out.println(ids[1].substring(1).toString());
        // shopPenalty("YYNY");
-        rabinKrap();
     }
 
-    private static void rabinKrap() {
-        String A="ABBCABB";
-        String B="ABB";
-       // System.out.println(solve(A.toLowerCase(),B.toLowerCase()));
-        search(B.toLowerCase(),A.toLowerCase(),29);
-    }
-
-    public static int solve(String A, String B) {
-        int n = A.length();
-        int m = B.length();
-        int prime = 29;
-        int mod = (int)(1e9 + 7);
-
-        long[] p_pow = new long[n];
-        p_pow[0] = 1;
-        for (int i = 1; i < n; i++) {
-            p_pow[i] = (p_pow[i - 1] * prime) % mod;
-        } //[1, 29, 841, 24389, 707281, 20511149, 594823321, 249876190]
-
-        long[] h = new long[n + 1];
-        for (int i = 0; i < n; i++){
-            h[i + 1] = (h[i] + (A.charAt(i) - 'a' + 1) * p_pow[i]) % mod;
-        } //[0, 1, 59, 1741, 74908, 782189, 41804487, 231451122] // A B B C A B B
-        long hash_B = 0;
-        for (int i = 0; i < m; i++) {
-            hash_B = (hash_B + (B.charAt(i) - 'a' + 1) * p_pow[i]) % mod;
-        } //[1,58,1683] = 1741 [A,B,B]
-
-        int ans = 0;
-        for (int i = 0; i + m - 1 < n; i++) {
-            long curr_hash = (h[i + m] + mod - h[i]) % mod;
-            if (curr_hash == hash_B * p_pow[i] % mod)
-                ans += 1;
-        }
-
-        return ans;
-    }
-
-    public final static int d = 256;
-
-    static void search(String pat, String txt, int primeNum) {
-        int M = pat.length();
-        int N = txt.length();
-        int i, j;
-        int pat_hashvalue = 0; // hash value for pattern
-        int txt_hashvalue = 0; // hash value for txt
-        int pow = 1;
-
-        // The value of h would be "pow(d, M-1)%q"
-        for (i = 0; i < M - 1; i++)
-            pow = (pow * d) % primeNum;
-        // iterate over pat length
-        for (i = 0; i < M; i++) {
-            pat_hashvalue = (d * pat_hashvalue + pat.charAt(i)) % primeNum;
-            txt_hashvalue = (d * txt_hashvalue + txt.charAt(i)) % primeNum;
-        }
-
-        for (i = 0; i <= N - M; i++) {
-
-            // Check the hash values of current window of // text and pattern. If the hash values match
-            // then only check for characters one by one
-            if (pat_hashvalue == txt_hashvalue) {
-                for (j = 0; j < M; j++) {
-                    if (txt.charAt(i + j) != pat.charAt(j))
-                        break;
-                }
-                if (j == M)
-                    System.out.println("Pattern found at index " + i);
-            }
-            // Calculate hash value for next window of text:
-            // Remove leading digit, add trailing digit
-            if (i < N - M) {
-                txt_hashvalue = (d * (txt_hashvalue - txt.charAt(i) * pow) + txt.charAt(i + M)) % primeNum;
-                if (txt_hashvalue < 0)
-                    txt_hashvalue = (txt_hashvalue + primeNum);
-            }
-        }
-    }
     // 2483
     public static int shopPenalty(String customers) {
        // return bruteforce(customers);
