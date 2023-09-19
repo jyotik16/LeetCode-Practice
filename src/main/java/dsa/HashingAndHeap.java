@@ -1,14 +1,13 @@
 package dsa;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.TreeMap;
+import java.util.*;
 
 public class HashingAndHeap {
     public static void main(String[] args) {
         long a1[] = {10, 5, 2, 23, 19,3};
         long a2[] = {19, 5, 3};
         //System.out.println(isSubset(a1,a2,a1.length,a2.length));
+        solve();
     }
     //https://practice.geeksforgeeks.org/problems/count-occurences-of-anagrams5839/1
     private static boolean match(HashMap<Character, Integer> map1, HashMap<Character, Integer> map2) {
@@ -173,4 +172,48 @@ public class HashingAndHeap {
         }
         return "Yes";
     }
+
+    //https://leetcode.com/problems/find-median-from-data-stream :: O(log(n))
+    static class MedianFinder {
+        private PriorityQueue<Long> left_heap = new PriorityQueue<>(Collections.reverseOrder());
+        private PriorityQueue<Long> right_heap = new PriorityQueue<>(); //min heap
+
+        public MedianFinder() {
+
+        }
+
+        public void addNum(int num) {
+            if (left_heap.isEmpty() || num < left_heap.peek()) {
+                left_heap.add((long) num);
+            } else {
+                right_heap.add((long) num);
+            }
+            if (left_heap.size() - right_heap.size() > 1) {
+                right_heap.add(left_heap.peek());
+                left_heap.poll();
+            } else if (right_heap.size() > left_heap.size()) {
+                left_heap.add(right_heap.peek());
+                right_heap.poll();
+            }
+        }
+
+        public double findMedian() {
+            if (left_heap.size() == right_heap.size()) {
+                double mean = (left_heap.peek() + right_heap.peek()) / 2.0;
+                return mean;
+            }
+            return left_heap.peek();
+        }
+    }
+    static void solve(){
+        MedianFinder obj = new MedianFinder();
+        obj.addNum(1);
+        double param_2 = obj.findMedian();
+        System.out.println(param_2);
+        obj.addNum(2);
+        System.out.println(obj.findMedian());
+        obj.addNum(3);
+        System.out.println(obj.findMedian());
+    }
+
 }

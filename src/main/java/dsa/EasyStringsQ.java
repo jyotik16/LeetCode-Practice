@@ -39,8 +39,89 @@ class EasyStringsQ{
         System.out.println(x);
         System.out.println(id.substring(x+2));
 
+     //   StringReverse("blue is sky the");
+       Solve();
     }
-    //151
+
+    private static void Solve() {
+        //A = "abcabbccd"
+        //B = 3
+        //We can change both 'a' and one 'd' into 'b'.So the new string becomes "bbcbbbccb".
+        //So the minimum number of distinct character will be 2.
+       // MinimizedDistinctCharacters("abcabbccd",3);
+        String [] st = {"abcdefgh", "abefghijk", "abcefgh"};
+       String ans =  LongestCommonPrefix(st);
+        System.out.println("Longest Common Prefix:"+ans);
+    }
+
+    private static String LongestCommonPrefix(String [] A) {
+        String shortest = A[0];
+        for (String str : A) {
+            if (str.length() < shortest.length()) {
+                shortest = str;
+            }
+        }
+        int length = shortest.length();
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < length; i++) {
+            char currentChar = shortest.charAt(i);
+            for (String str : A) {
+                if (str.charAt(i) != currentChar) {
+                    return result.toString();
+                }
+            }
+            result.append(currentChar);
+        }
+        System.out.println(result.toString());
+        return result.toString();
+    }
+
+
+    public static int MinimizedDistinctCharacters(String A, int B) {
+        int[] freq = new int[26];
+        char ar[] = A.toCharArray();
+        int n = ar.length;
+        for(int i=0;i<n;i++){
+            int index = ar[i]-'a';
+            freq[index]++;
+        }
+        int total=0;
+        for(int i=0;i<26;i++){
+            if(freq[i]>0){
+                total++;
+            }
+        }
+        Arrays.sort(freq);
+        int change=0;
+        for(int i=0;i<26;i++){
+            if(B-freq[i]>=0 && freq[i]!=0){
+                B=B-freq[i];
+                change++;
+            }
+        }
+        return Math.max(total-change,1);
+    }
+
+    public static String StringReverse(String A) {
+        StringBuilder ans = new StringBuilder(); //blue is sky the
+        int lastInd = A.length();
+        for (int i = A.length() - 1; i >= 0; i--) {
+            if (A.charAt(i) == ' ') {
+                String subStr = A.substring(i + 1, lastInd);
+                ans.append(subStr);
+                if (A.charAt(lastInd - 1) != ' ') {
+                    ans.append(' ');
+                }
+                lastInd = i;
+            }
+        }
+        if (lastInd > 0) {
+            ans.append(A.substring(0, lastInd));
+        }
+        return ans.toString(); //the sky is blue
+    }
+        //151
     public static String reverseWords(String s) {
         s = s.strip();
         String [] ar = s.split(" ");
