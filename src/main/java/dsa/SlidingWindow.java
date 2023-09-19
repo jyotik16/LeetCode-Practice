@@ -125,10 +125,10 @@ public class SlidingWindow {
         txt = txt.toLowerCase();
         int k = pat.length();
 
-        int [] freq = new int[27];
+        int [] freq = new int[26];
         for (int i = 0; i < k; i++) {
             char ch = pat.charAt(i);
-            int index = ch-'a'+1;
+            int index = ch-'a';
             freq[index]++;
         }
 
@@ -136,12 +136,12 @@ public class SlidingWindow {
         int n = txt.length();
         int result = 0;
         while(j < n) {
-            freq[(txt.charAt(j)-'a'+1)]--;
+            freq[(txt.charAt(j)-'a')]--;
             if(j - i + 1 == k) {
                 if(allZero(freq)) {
                     result++;
                 }
-                freq[(txt.charAt(i)-'a'+1)]++;
+                freq[(txt.charAt(i)-'a')]++;
                 i++;
             }
             j++;
@@ -215,7 +215,7 @@ public class SlidingWindow {
                 map.put(ch1,-1);
             }
             //window ko shrink kro
-            while(requiredCount == 0 && i<n){
+            while(requiredCount == 0 && i<m){
                 if(minWindow > j-i+1) {
                     minWindow = j-i+1;
                     minStart  = i;
