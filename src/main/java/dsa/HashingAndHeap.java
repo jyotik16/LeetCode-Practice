@@ -7,7 +7,9 @@ public class HashingAndHeap {
         long a1[] = {10, 5, 2, 23, 19,3};
         long a2[] = {19, 5, 3};
         //System.out.println(isSubset(a1,a2,a1.length,a2.length));
-        solve();
+       // solve();
+        String pat="bob"; String txt="bobob";
+        findAnagrams(txt,pat);
     }
     //https://practice.geeksforgeeks.org/problems/count-occurences-of-anagrams5839/1
     private static boolean match(HashMap<Character, Integer> map1, HashMap<Character, Integer> map2) {
@@ -34,13 +36,13 @@ public class HashingAndHeap {
         ArrayList<Integer> res = new ArrayList<>();
         for(int i = p.length(); i < s.length(); i++) {
             // match
-            if(match(smap, pmap) == true) {
-                res.add(i - p.length());
-            }
+           // if(match(smap, pmap) == true) {
+           //     res.add(i - p.length());
+           // }
             // we can use equals function too
-            // if(smap.equals(pmap) == true) {
-            // }
-
+             if(smap.equals(pmap) == true) {
+                 res.add(i - p.length());
+             }
             // acquire
             char ch = s.charAt(i);
             smap.put(ch, smap.getOrDefault(ch, 0) + 1);
