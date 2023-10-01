@@ -110,12 +110,49 @@ public class KMP {
             }
         }
     }
+    static void makePalidrome(String str){
+        String palin = str;
+        int [] lps = new int[palin.length()];
+        createLSP(lps,palin);
+        int max = Integer.MIN_VALUE;
+        for (int i = 0; i < lps.length; i++) {
+            max = Math.max(max,lps[i]);
+        }
+        System.out.println("max:"+max);
+        if(str.length()%max == 0){
+            System.out.println(max);
+        }else{
+            System.out.println(str.length()%max);
+        }
+
+    }
+
+    private static void createLSP(int [] lps,String str) {
+        int i=1,len =0;
+        while (i < str.length()) {
+            if (str.charAt(i) == str.charAt(len)) {
+                len++; lps[i] = len;  i++;
+            }
+            else {
+                if (len>0){
+                    len = lps[len-1];
+                }else{
+                    lps[i] = 0;
+                    i++;
+                }
+            }
+        }
+        System.out.println();
+    }
+
     public static void main(String args[]) {
         String txt = "ABCABAABC";
         String pat = "ABC";
        // KMPSearch(pat, txt);
        // LSP(pat,txt);
        // rabinKrap();
+        makePalidrome("abababababb"); //abababab  len=8 max=6 8%6  [0, 0, 1, 2, 3, 4, 5, 6]
+        //hqhq  len=4 max=2  2%4 [0 0 1 2]
     }
 
 

@@ -33,8 +33,186 @@ public class ArrayQ2 {
        // maxSubArraySumWithIndex(subarray2);
       //  flip("010");
       //  sumOfmatrics();
-        sumOfsubmatrics();
+       // sumOfsubmatrics();
+       // findsubarray();
+       // System.out.print("ans = "+solve(100));
+        majorityElement();
+       // specialIndex();
     }
+
+    private static void specialIndex() {
+        int [] A = {1,1,1};
+        System.out.println(specialIndex(A));
+    }
+    public static int specialIndex(int[] A) {
+        int even=0,odd=0,count=0;
+        for(int i=0;i<A.length;i++){
+            if(i%2==0)
+                odd+=A[i];
+            else
+                even+=A[i];
+
+        }
+        odd=odd-A[0];
+        if(odd==even)
+            count++;
+
+        for(int i=1;i<A.length;i++){
+            if(i%2!=0){
+                even=even-A[i]+A[i-1];
+                if(odd==even)
+                    count++;
+            }else{
+                odd=odd-A[i]+A[i-1];
+                if(odd==even)
+                    count++;
+            }
+        }
+        return count;
+    }
+
+    private static void majorityElement() {
+        int [] ar={1,2,3,1,1};
+       // majorityElement2(ar);
+        int A[] = {2,1,2};
+        majorityElement_(A);
+    }
+    public static int   majorityElement(final int[] A) {
+        int maj_index = 0;
+        int count=1;
+        for(int i=1;i<A.length;i++){
+            if(A[maj_index]==A[i]){
+                count++;
+            }
+            else{
+                count--;
+            }
+            if(count==0){
+                maj_index=i;
+                count=1;
+            }
+        }
+        int ans = A[maj_index];
+        int ans_count=0;
+        for(int i=0;i<A.length;i++){
+            if(A[i]==ans){
+                count++;
+            }
+        }
+        int ele=0;
+        if(count>A.length/2){
+            ele = ans;
+        }
+        return ele;
+    }
+
+    public static int majorityElement_(int[] nums) {
+        int val = nums[0];
+        int count = 1;
+
+        int i = 1;
+        while(i < nums.length) {
+            if(val == nums[i]) {
+                // increase the count of same element
+                count++;
+            } else {
+                if(count > 0) {
+                    // pair distinct pair
+                    count--;
+                } else {
+                    val = nums[i];
+                    count = 1;
+                }
+            }
+            i++;
+        }
+        // majority always exist, so val is result
+        return val;
+    }
+    // leetcode 229 https://leetcode.com/problems/majority-element-ii/
+    private static boolean checkFreqM2(int[] arr, int val) {
+        int count = 0;
+        for(int e : arr) {
+            if(e == val) count++;
+        }
+        return count > arr.length / 3;
+    }
+
+    public static List<Integer> majorityElement2(int[] arr) {
+
+        // find valid candidates fore majority
+        int val1 = arr[0];
+        int count1 = 1; // count1 -> count of val1 for current window to make triplets
+
+        int val2 = arr[0];
+        int count2 = 0; // count2 -> count of val2 for current window to make triplets
+
+        for(int i = 1; i < arr.length; i++) {
+            if (arr[i] == val1) {
+                count1++;
+            } else if (arr[i] == val2) {
+                count2++;
+            } else {
+                if (count1 == 0) {
+                    val1 = arr[i];
+                    count1 = 1;
+                } else if (count2 == 0) {
+                    val2 = arr[i];
+                    count2 = 1;
+                } else {
+                    // triplet is found, reduce freq of val1 & val2 from count1 and count2
+                    count1--;
+                    count2--;
+                }
+            }
+        }
+        // check if it have freq more than n/3 using val1 and val2
+        List<Integer> list = new ArrayList<>();
+        boolean check1 = checkFreqM2(arr, val1);
+        if(check1 == true)  list.add(val1);
+
+        if(val1 == val2) return list;
+
+        boolean check2 = checkFreqM2(arr, val2);
+        if(check2 == true)  list.add(val2);
+
+        return list;
+    }
+    public static int solve(int A) {
+        int i = 1;
+        while(i <= A){
+            i = i * 2;
+        }
+        int t = A-(i/2);
+        return (2*t)+1;
+    }
+
+    public static void findsubarray(){
+        int [] A = {4, 3, 2, 6, 1};
+        int B = 3; int sum = 11;
+        findsubarray(A,B,sum);
+    }
+
+    public static int findsubarray(int[] A, int B, int C) {
+        int n = A.length;
+        int flag = 0;
+
+        int curr_sum =0;
+        for (int i=0;i<B;i++){
+            curr_sum +=A[i];
+        }
+        if(curr_sum == C) return 1;
+
+        int i = 0;
+        for (int j = B; j < n; j++) {
+            curr_sum = curr_sum + A[j] - A[j-B];
+            if (curr_sum == C)
+                return 1;
+        }
+
+        return flag;
+    }
+
     public static void sumOfsubmatrics(){
     int [][] A = { {1, 2, 3},
                     {4, 5, 6},
