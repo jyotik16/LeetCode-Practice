@@ -1,9 +1,6 @@
 package dsa;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public class BitManipulation {
 
@@ -29,10 +26,161 @@ public class BitManipulation {
         people.add(Arrays.asList("java"));
         people.add(Arrays.asList("nodejs"));
         people.add(Arrays.asList("nodejs","reactjs"));
-        smallestSufficientTeam(req_skills,people);
+      //  smallestSufficientTeam(req_skills,people);
+     //   reverseBit();
+     //   sumOfpairXORSUM();
+        starngeEquality();
+      //  printAllsubsets();
     }
 
-   // Time O(people * 2^skill)
+    private static void printAllsubsets() {
+        int [] A = {3,2,1};
+        printAllsubsets(A);
+    }
+
+    private static void printAllsubsets(int[] list) {
+        ArrayList<Integer> A = new ArrayList<>();
+        for (int i = 0; i < list.length; i++) {
+            A.add(list[i]);
+        }
+        Collections.sort(A);
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        int n = A.size();
+        int m = (int)Math.pow(2,n);
+        for (int i = 0; i < m; i++) {
+            ArrayList<Integer> subset = new ArrayList<>();
+            for (int j = 0; j < n; j++) {
+                if ((i & (1 << j)) > 0) {
+                    subset.add(A.get(j));
+                }
+            }
+
+            result.add(subset);
+        }
+        System.out.println(result);
+        Collections.sort(result, (a, b) -> {
+            for (int i = 0; i < Math.min(a.size(), b.size()); i++) {
+                int cmp = Integer.compare(a.get(i), b.get(i));
+                if (cmp != 0) {
+                    return cmp;
+                }
+            }
+            return Integer.compare(a.size(), b.size());
+        });
+       // return result;
+        System.out.println(result);
+
+
+    }
+
+    private static void starngeEquality() {
+        int A = 5;
+        starngeEquality(A);
+    }
+
+    private static void starngeEquality(int A) {
+            int smallest = 0 , largest = 0;
+            boolean large = true;
+            // X XOR A == X + A
+            for(int i = 0 ; i < 31 ; i++)
+            {
+                int value = 1 << i;
+              //  if( value < A && ( (A >> i ) & 1 ) == 0 && smallest < A)
+                if( value < A && checkXOR(value,A) && smallest < A)
+                    smallest += 1 << i;
+
+                if( value > A && ( (A >> i ) & 1 ) == 0 && large )
+                {
+                    largest = 1 << i;
+                    large = false;
+                }
+            }
+            //return smallest + largest;
+            System.out.println(smallest+largest);
+    }
+
+    static boolean checkXOR(int value,int a){
+        int sum = value + a;
+        int xor = value ^ a;
+        if (sum == xor)
+            return true;
+        else
+            return false;
+    }
+
+    private static void sumOfpairXORSUM() {
+        int [] A = {1, 3, 5};  // 12,8
+        int [] B = {1, 2, 3}; //(1,2) (2,3) (1,3)
+        sumOfpairXORSUM(A);
+        sumOfpairXORSUM_differentBit(A);
+    }
+
+    private static void sumOfpairXORSUM(int[] A) {
+        long ans=0;
+        int n=A.length;
+        long modNum = 1000000007;
+        for(int i=0;i<32;i++){
+            long subCount=0, count=0;
+
+            for(int j=0;j<n;j++){
+                if(checkBit(A[j], i)==1){
+                    subCount++;
+                }
+            }
+
+            count = (subCount*(n-subCount));
+            ans =(ans + ((count*(1<<i)))%modNum)%modNum;
+        }
+        ans = (int)ans;
+        System.out.println(ans);
+    }
+    public static int checkBit(int x, int y){
+        if((x&(1<<y))!=0){
+            return 1;
+        }
+        else{
+            return 0;
+        }
+    }
+
+    private static void sumOfpairXORSUM_differentBit(int[] A) {
+        long ans=0;
+        int n=A.length;
+        long modNum = 1000000007;
+        for(int i=0;i<32;i++){
+            long subCount=0, count=0;
+
+            for(int j=0;j<n;j++){
+                if(checkBit(A[j], i)==1){
+                    subCount++;
+                }
+            }
+
+            count = (subCount*(n-subCount));
+            ans = (ans+count%modNum)%modNum;
+        }
+        ans = (int)(2*ans)%modNum;
+        System.out.println(ans);
+    }
+
+
+    private static void reverseBit() {
+        int num = 3;
+        reverseBit(num);
+    }
+
+    private static void reverseBit(int a) {
+        long ans=0;
+        for(int i=0;i<32;i++){
+            ans=ans<<1;
+            ans=ans|(a&1);
+            a=a>>1;
+        }
+        System.out.println(ans); //3221225472
+    }
+
+
+    // Time O(people * 2^skill)
     //Space O(2^skill)
     public static int[] smallestSufficientTeam(String[] req_skills, List<List<String>> people) {
         int n = req_skills.length, m = people.size();
