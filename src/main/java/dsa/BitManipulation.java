@@ -29,11 +29,52 @@ public class BitManipulation {
       //  smallestSufficientTeam(req_skills,people);
      //   reverseBit();
      //   sumOfpairXORSUM();
-        starngeEquality();
+       // starngeEquality();
       //  printAllsubsets();
+        divide();
     }
 
-    private static void printAllsubsets() {
+    private static void divide() {
+        long A = 10;
+        long B = 5;
+        divideNum(A,B);
+    }
+
+    private static void divideNum(long A, long B) {
+        long n = A;
+        long m = B;
+        //determining the sign of coeficient
+        int sign = 1;
+        if ((n < 0 && m >= 0) || (n >= 0 && m < 0)) {
+            sign = -1;
+        }
+        // remove sign of operand
+        n = Math.abs(n);
+        m = Math.abs(m);
+        //q stores the coeficient in computation
+        long q = 0, t = 0;
+        //test down from highest bit
+        //accumulate the tentive value for valid bits
+        for (int i = 31; i >= 0; i--) {
+            if (t + (m << i) <= n) {
+                t += m << i;
+                q |= (long) 1 << i;
+            }
+        }
+        //assign back the sign
+        if (sign < 0) {
+            q = -q;
+        }
+        //check for overflow and return
+        if (q >= Integer.MAX_VALUE) {
+            //return Integer.MAX_VALUE;
+        } else {
+            //return (int) q;
+            System.out.println((int)q);
+        }
+    }
+
+        private static void printAllsubsets() {
         int [] A = {3,2,1};
         printAllsubsets(A);
     }
