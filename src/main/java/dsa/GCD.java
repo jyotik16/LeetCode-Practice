@@ -2,7 +2,8 @@ package dsa;
 
 public class GCD {
     public static void main(String[] args) {
-        DeleteOne();
+       // DeleteOne();
+        pow();
     }
 
     private static void DeleteOne() {
@@ -49,5 +50,41 @@ public class GCD {
         int temp = gcd(B%A, A);
         return temp;
     }
+
+    static void pow(){
+        int A = 2,B=3,C=3;
+        pow(A,B,C);
+    }
+
+    public static int pow(int A, int B, int C) {
+        if(A==0){
+            return 0;
+        }
+        if(B==0){
+            return 1;
+        }
+        long ans = 0;
+        if(B%2==0){
+            ans = pow(A, B/2, C);
+            ans = (ans*ans)%C;
+        }
+        else{
+            ans = A%C;
+            ans = (ans*pow(A, B-1, C)%C)%C;
+        }
+        return (int)((ans+C)%C);
+    }
+
+    public static int powerBtr(int x, int n) {
+        if(n == 0) return 1;
+
+        int halfPower = powerBtr(x, n / 2);
+        int xn = halfPower * halfPower;
+        if(n % 2 != 0) {
+            xn *= x;
+        }
+        return xn;
+    }
+
 
 }
