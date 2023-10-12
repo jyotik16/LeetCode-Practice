@@ -9,8 +9,8 @@ public class Sort {
 
     private static void sumOfDifferenceofAllEmptySubsets() {
         int [] A = {3,5,10};
-       // sumOfDifferenceofAllNonEmptySubsets(A);
-        findSubsetsUsingBitM(A);
+        sumOfDifferenceofAllNonEmptySubsets(A);
+      //  findSubsetsUsingBitM(A);
     }
 
     private static void sumOfDifferenceofAllNonEmptySubsets(int[] A) {
@@ -21,7 +21,8 @@ public class Sort {
         for(int i=0; i<n; i++){
             double maxPow = Math.pow(2, i)%mod;
             double minPow = Math.pow(2, n - i - 1)%mod;
-            ans = (ans + (A[i] * (maxPow - minPow + mod) % mod)) % mod;
+           // ans = (ans + (A[i] * (maxPow - minPow + mod) % mod)) % mod;
+            ans = (ans + ((A[i] * (maxPow - minPow)) % mod)) % mod;
         }
        // return (int)ans;
         System.out.println(ans);
